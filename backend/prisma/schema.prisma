@@ -1,0 +1,105 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  password  String
+  nombre    String
+  role      Role     @default(MECANICO)
+  createdAt DateTime @default(now())
+  logs      MaintenanceLog[]
+}
+
+model Vessel {
+  id          Int         @id @default(autoincrement())
+  nombre      String
+  tipo        String
+  matricula   String      @unique
+  anio        Int
+  descripcion String?
+  createdAt   DateTime    @default(now())
+  equipment   Equipment[]
+  stockItems  StockItem[]
+}
+
+model Equipment {
+  id       Int     @id @default(autoincrement())
+  codigo   String
+  nombre   String
+  sistema  String
+  tipo     String
+  vesselId Int
+  vessel   Vessel  @relation(fields: [vesselId], references: [id])
+  tasks    MaintenanceTask[]
+}
+
+model MaintenanceTask {
+  id          Int       @id @default(autoincrement())
+  codigo      String
+  descripcion String
+  frecuencia  Frecuencia
+  accion      String
+  equipmentId Int
+  equipment   Equipment @relation(fields: [equipmentId], references: [id])
+  logs        MaintenanceLog[]
+}
+
+model MaintenanceLog {
+  id           Int      @id @default(autoincrement())
+  fecha        DateTime @default(now())
+  horasMotor   Float?
+  estado       Estado   @default(OK)
+  observaciones String?
+  taskId       Int
+  userId       Int
+  task         MaintenanceTask @relation(fields: [taskId], references: [id])
+  user         User            @relation(fields: [userId], references: [id])
+}
+
+model StockItem {
+  id        Int     @id @default(autoincrement())
+  nombre    String
+  codigo    String
+  cantidad  Int
+  minimo    Int
+  clase     Clase   @default(B)
+  vesselId  Int
+  vessel    Vessel  @relation(fields: [vesselId], references: [id])
+}
+
+enum Role {
+  ADMIN
+  MECANICO
+}
+
+enum Frecuencia {
+  DIARIA
+  CADA_DOS_DIAS
+  CADA_CUATRO_DIAS
+  SEMANAL
+  QUINCENAL
+  MENSUAL
+  BIMESTRAL
+  TRIMESTRAL
+  SEMESTRAL
+  ANUAL
+  BIANUAL
+}
+
+enum Estado {
+  OK
+  INCIDENCIA
+  PENDIENTE
+}
+
+enum Clase {
+  A
+  B
+}
