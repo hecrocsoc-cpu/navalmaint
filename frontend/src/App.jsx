@@ -3,6 +3,7 @@ import { useAuth } from './context/AuthContext'
 import Login from './pages/Login'
 import Register from './pages/Register'
 import Dashboard from './pages/Dashboard'
+import Equipment from './pages/Equipment'
 
 const RutaProtegida = ({ children }) => {
   const { usuario, cargando } = useAuth()
@@ -21,6 +22,11 @@ function App() {
       <Route path="/dashboard" element={
         <RutaProtegida>
           <Dashboard />
+        </RutaProtegida>
+      } />
+      <Route path="/equipment" element={
+        <RutaProtegida>
+          <Equipment />
         </RutaProtegida>
       } />
       <Route path="*" element={<Navigate to="/login" />} />

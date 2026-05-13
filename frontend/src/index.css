@@ -227,3 +227,167 @@ button[type="submit"]:disabled {
     padding: 30px 20px;
   }
 }
+
+/* PÁGINAS INTERIORES */
+.page-container {
+  padding: 30px;
+  min-height: 100vh;
+}
+
+.page-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 30px;
+}
+
+.page-header h1 {
+  color: #4a9eff;
+  font-size: 1.6rem;
+}
+
+.badge {
+  background: #2d3f6b;
+  color: #94a3b8;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+}
+
+.loading {
+  padding: 30px;
+  color: #94a3b8;
+  text-align: center;
+}
+
+.error {
+  padding: 30px;
+  color: #ef4444;
+  text-align: center;
+}
+
+/* EQUIPMENT */
+.equipment-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+}
+
+.equipment-card {
+  background: #1a2744;
+  border: 1px solid #2d3f6b;
+  border-radius: 12px;
+  padding: 20px;
+  transition: border-color 0.2s;
+}
+
+.equipment-card:hover {
+  border-color: #4a9eff;
+}
+
+.eq-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.eq-codigo {
+  background: #4a9eff;
+  color: white;
+  padding: 3px 10px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: bold;
+}
+
+.eq-sistema {
+  background: #2d3f6b;
+  color: #94a3b8;
+  padding: 3px 10px;
+  border-radius: 6px;
+  font-size: 0.8rem;
+}
+
+.equipment-card h3 {
+  font-size: 0.95rem;
+  margin-bottom: 6px;
+  color: #e2e8f0;
+}
+
+.eq-tipo {
+  color: #94a3b8;
+  font-size: 0.85rem;
+}
+
+/* TABLA GENÉRICA */
+.table-container {
+  background: #1a2744;
+  border: 1px solid #2d3f6b;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+thead {
+  background: #0a1628;
+}
+
+th {
+  padding: 12px 16px;
+  text-align: left;
+  color: #94a3b8;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+td {
+  padding: 12px 16px;
+  border-top: 1px solid #2d3f6b;
+  font-size: 0.9rem;
+  color: #e2e8f0;
+}
+
+tr:hover td {
+  background: #1e2f52;
+}
+
+/* ESTADO BADGES */
+.estado-ok {
+  background: #1b2d1b;
+  color: #22c55e;
+  padding: 3px 10px;
+  border-radius: 6px;
+  font-size: 0.8rem;
+}
+
+.estado-incidencia {
+  background: #2d1b1b;
+  color: #ef4444;
+  padding: 3px 10px;
+  border-radius: 6px;
+  font-size: 0.8rem;
+}
+
+.estado-pendiente {
+  background: #2d2a1b;
+  color: #f59e0b;
+  padding: 3px 10px;
+  border-radius: 6px;
+  font-size: 0.8rem;
+}
+
+/* STOCK ALERTA */
+.stock-alerta {
+  border-color: #ef4444 !important;
+}
+
+.stock-alerta:hover {
+  border-color: #ef4444 !important;
+}
