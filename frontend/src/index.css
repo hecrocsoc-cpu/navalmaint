@@ -391,3 +391,90 @@ tr:hover td {
 .stock-alerta:hover {
   border-color: #ef4444 !important;
 }
+/* NAVBAR */
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 2rem;
+  height: 60px;
+  background: #0a1628;
+  border-bottom: 2px solid #1e3a5f;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.navbar-brand {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #4fc3f7;
+  letter-spacing: 1px;
+}
+
+.navbar-links {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.navbar-links a {
+  color: #b0bec5;
+  text-decoration: none;
+  font-size: 0.95rem;
+  transition: color 0.2s;
+}
+
+.navbar-links a:hover {
+  color: #4fc3f7;
+}
+
+.navbar-user {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  color: #b0bec5;
+  font-size: 0.9rem;
+}
+
+.navbar-user button {
+  background: transparent;
+  border: 1px solid #1e3a5f;
+  color: #b0bec5;
+  padding: 0.3rem 0.8rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.navbar-user button:hover {
+  border-color: #4fc3f7;
+  color: #4fc3f7;
+}
+
+/* TABLA */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+
+.table th {
+  background: #1e3a5f;
+  color: #4fc3f7;
+  padding: 0.75rem 1rem;
+  text-align: left;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.table td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid #1e3a5f;
+  color: #b0bec5;
+  font-size: 0.9rem;
+}
+
+.table tr:hover td {
+  background: #0d2137;
+}
