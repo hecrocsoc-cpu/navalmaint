@@ -199,7 +199,7 @@ export default function Stock() {
                 </table>
               )}
 
-              {usuario?.role === 'ADMIN' && (
+              {(usuario?.role === 'ADMIN' || usuario?.role === 'MECANICO') && (
                 formulario === barco.id ? (
                   <div className="equipment-card" style={{ maxWidth: 400 }}>
                     <form onSubmit={handleAñadir}>

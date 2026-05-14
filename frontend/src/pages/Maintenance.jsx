@@ -17,6 +17,7 @@ export default function Maintenance() {
   });
   const [mensajeOk, setMensajeOk] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
+  const [codigosAbiertos, setCodigosAbiertos] = useState({});
 
   useEffect(() => {
     const cargar = async () => {
@@ -26,13 +27,36 @@ export default function Maintenance() {
           peticion("/tasks"),
         ]);
 
-        const vesselsFiltrados = usuario?.role === "MECANICO"
-          ? vessels.filter(v => v.id === usuario.vesselId)
-          : vessels;
+        const vesselsFiltrados =
+          usuario?.role === "MECANICO"
+            ? vessels.filter((v) => v.id === usuario.vesselId)
+            : vessels;
 
         const barcosConTareas = vesselsFiltrados.map((barco) => ({
           ...barco,
-          tareas: tareas.filter((t) => t.equipment?.vesselId === barco.id),
+          tareas: tareas
+            .filter((t) => t.equipment?.vesselId === barco.id)
+            .sort((a, b) => {
+              const orden = [
+                "DIARIA",
+                "CADA_DOS_DIAS",
+                "CADA_CUATRO_DIAS",
+                "SEMANAL",
+                "QUINCENAL",
+                "MENSUAL",
+                "BIMESTRAL",
+                "TRIMESTRAL",
+                "SEMESTRAL",
+                "ANUAL",
+                "BIANUAL",
+              ];
+              const diff =
+                orden.indexOf(a.frecuencia) - orden.indexOf(b.frecuencia);
+              if (diff !== 0) return diff;
+              return (a.equipment?.nombre || "").localeCompare(
+                b.equipment?.nombre || "",
+              );
+            }),
         }));
         setBarcos(barcosConTareas);
       } catch (err) {
@@ -79,6 +103,22 @@ export default function Maintenance() {
 
   const totalTareas = barcos.reduce((acc, b) => acc + b.tareas.length, 0);
 
+  const CODIGOS = [
+    { codigo: "CN", descripcion: "Comprobar nivel" },
+    { codigo: "CE", descripcion: "Comprobar estado" },
+    { codigo: "CNR", descripcion: "Comprobar niveles de residuos" },
+    { codigo: "CM", descripcion: "Cambiar o sustituir elemento" },
+    { codigo: "LP", descripcion: "Limpieza" },
+    { codigo: "AM", descripcion: "Acción manual" },
+    { codigo: "PR", descripcion: "Purga" },
+    { codigo: "CP", descripcion: "Comprobar presión" },
+    { codigo: "CT", descripcion: "Comprobar temperaturas" },
+    { codigo: "EN", descripcion: "Engrase o lubricación" },
+    { codigo: "VM", descripcion: "Operar motor 50-70% carga 30 min" },
+    { codigo: "CPS", descripcion: "Comprobar posición" },
+    { codigo: "OV", descripcion: "Overhaul" },
+  ];
+
   return (
     <div className="page-container">
       <div className="page-header">
@@ -92,7 +132,6 @@ export default function Maintenance() {
       {barcos.map((barco) => (
         <div key={barco.id} style={{ marginBottom: 24 }}>
           <div
-            onClick={() => toggleColapsar(barco.id)}
             style={{
               display: "flex",
               alignItems: "center",
@@ -100,18 +139,77 @@ export default function Maintenance() {
               marginBottom: colapsados[barco.id] ? 0 : 16,
               borderBottom: "1px solid #2d3f6b",
               paddingBottom: 10,
-              cursor: "pointer",
             }}
           >
-            <span style={{ color: "#4a9eff", fontSize: "1rem" }}>
+            <span
+              onClick={() => toggleColapsar(barco.id)}
+              style={{ color: "#4a9eff", fontSize: "1rem", cursor: "pointer" }}
+            >
               {colapsados[barco.id] ? "▶" : "▼"}
             </span>
-            <h2 style={{ color: "#4a9eff", fontSize: "1.1rem" }}>
+            <h2
+              onClick={() => toggleColapsar(barco.id)}
+              style={{
+                color: "#4a9eff",
+                fontSize: "1.1rem",
+                cursor: "pointer",
+              }}
+            >
               {barco.nombre}
             </h2>
             <span className="badge">{barco.tareas.length} tareas</span>
             <span className="eq-sistema">{barco.matricula}</span>
+            <button
+              onClick={() =>
+                setCodigosAbiertos((prev) => ({
+                  ...prev,
+                  [barco.id]: !prev[barco.id],
+                }))
+              }
+              style={{
+                marginLeft: "auto",
+                padding: "4px 10px",
+                background: "transparent",
+                border: "1px solid #2d3f6b",
+                borderRadius: 6,
+                color: "#94a3b8",
+                cursor: "pointer",
+                fontSize: "0.8rem",
+              }}
+            >
+              📖 Códigos
+            </button>
           </div>
+
+          {codigosAbiertos[barco.id] && (
+            <div
+              style={{
+                marginBottom: 16,
+                background: "#0f1e36",
+                borderRadius: 8,
+                padding: "12px 16px",
+              }}
+            >
+              <table className="table" style={{ marginBottom: 0 }}>
+                <thead>
+                  <tr>
+                    <th>Código</th>
+                    <th>Descripción</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {CODIGOS.map((c) => (
+                    <tr key={c.codigo}>
+                      <td>
+                        <span className="eq-codigo">{c.codigo}</span>
+                      </td>
+                      <td>{c.descripcion}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
 
           {!colapsados[barco.id] &&
             (barco.tareas.length === 0 ? (
@@ -210,8 +308,12 @@ export default function Maintenance() {
                                   }}
                                 >
                                   <option value="OK">✓ OK</option>
-                                  <option value="PENDIENTE">⏳ Pendiente</option>
-                                  <option value="INCIDENCIA">⚠️ Incidencia</option>
+                                  <option value="PENDIENTE">
+                                    ⏳ Pendiente
+                                  </option>
+                                  <option value="INCIDENCIA">
+                                    ⚠️ Incidencia
+                                  </option>
                                 </select>
                               </div>
                               <div className="form-group" style={{ margin: 0 }}>

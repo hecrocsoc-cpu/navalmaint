@@ -1,9 +1,11 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useApi } from '../hooks/useApi'
+import { useAuth } from '../context/AuthContext'
 
 export default function Vessels() {
   const { peticion } = useApi()
+  const { usuario } = useAuth()
   const navigate = useNavigate()
   const [barcos, setBarcos] = useState([])
   const [loading, setLoading] = useState(true)
@@ -13,7 +15,10 @@ export default function Vessels() {
     const cargar = async () => {
       try {
         const data = await peticion('/vessels')
-        setBarcos(data)
+        const barcosFiltrados = usuario?.role === 'MECANICO'
+          ? data.filter(v => v.id === usuario.vesselId)
+          : data
+        setBarcos(barcosFiltrados)
       } catch (err) {
         setError('Error al cargar embarcaciones')
       } finally {
@@ -63,14 +68,16 @@ export default function Vessels() {
         ))}
       </div>
 
-      <div style={{ marginTop: 24 }}>
-        <button
-          onClick={() => navigate('/vessels/new')}
-          style={{ padding: '10px 20px', background: 'transparent', border: '1px solid #4a9eff', borderRadius: 8, color: '#4a9eff', cursor: 'pointer' }}
-        >
-          + Añadir embarcación
-        </button>
-      </div>
+      {usuario?.role === 'ADMIN' && (
+        <div style={{ marginTop: 24 }}>
+          <button
+            onClick={() => navigate('/vessels/new')}
+            style={{ padding: '10px 20px', background: 'transparent', border: '1px solid #4a9eff', borderRadius: 8, color: '#4a9eff', cursor: 'pointer' }}
+          >
+            + Añadir embarcación
+          </button>
+        </div>
+      )}
     </div>
   )
 }

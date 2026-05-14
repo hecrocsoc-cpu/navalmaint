@@ -16,7 +16,7 @@ const stockValidation = [
 router.get('/', verifyToken, getStock)
 router.get('/alertas', verifyToken, getStockAlertas)
 router.get('/:id', verifyToken, getStockById)
-router.post('/', verifyToken, verifyRole('ADMIN'), stockValidation, createStockItem)
+router.post('/', verifyToken, verifyRole('ADMIN', 'MECANICO'), stockValidation, createStockItem)
 router.put('/:id', verifyToken, stockValidation, updateStockItem)
 router.delete('/:id', verifyToken, verifyRole('ADMIN'), deleteStockItem)
 
