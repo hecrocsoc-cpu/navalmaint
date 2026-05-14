@@ -8,6 +8,8 @@ import Equipment from "./pages/Equipment";
 import Maintenance from "./pages/Maintenance";
 import Stock from "./pages/Stock";
 import History from "./pages/History";
+import NewVessel from "./pages/NewVessel";
+import Vessels from "./pages/Vessels";
 
 const RutaProtegida = ({ children }) => {
   const { usuario, cargando } = useAuth();
@@ -65,6 +67,22 @@ function App() {
         element={
           <RutaProtegida>
             <History />
+          </RutaProtegida>
+        }
+      />
+      <Route
+        path="/vessels/new"
+        element={
+          <RutaProtegida>
+            <NewVessel />
+          </RutaProtegida>
+        }
+      />
+      <Route
+        path="/vessels"
+        element={
+          <RutaProtegida>
+            <Vessels />
           </RutaProtegida>
         }
       />
