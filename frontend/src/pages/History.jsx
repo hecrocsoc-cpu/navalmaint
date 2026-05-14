@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react'
 import { useApi } from '../hooks/useApi'
+import { useAuth } from '../context/AuthContext'
 
 export default function History() {
   const { peticion } = useApi()
+  const { usuario } = useAuth()
   const [logs, setLogs] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
@@ -11,7 +13,10 @@ export default function History() {
     const cargarLogs = async () => {
       try {
         const data = await peticion('/logs')
-        setLogs(data)
+        const logsFiltrados = usuario?.role === 'MECANICO'
+          ? data.filter(log => log.task?.equipment?.vesselId === usuario.vesselId)
+          : data
+        setLogs(logsFiltrados)
       } catch (err) {
         setError('Error al cargar historial')
       } finally {

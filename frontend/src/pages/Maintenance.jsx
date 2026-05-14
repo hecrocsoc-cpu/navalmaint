@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { useApi } from "../hooks/useApi";
+import { useAuth } from "../context/AuthContext";
 
 export default function Maintenance() {
   const { peticion, cargando } = useApi();
+  const { usuario } = useAuth();
   const [barcos, setBarcos] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [colapsados, setColapsados] = useState({});
-  const [formulario, setFormulario] = useState(null); // taskId activo
+  const [formulario, setFormulario] = useState(null);
   const [logData, setLogData] = useState({
     estado: "OK",
     horasMotor: "",
@@ -23,7 +25,12 @@ export default function Maintenance() {
           peticion("/vessels"),
           peticion("/tasks"),
         ]);
-        const barcosConTareas = vessels.map((barco) => ({
+
+        const vesselsFiltrados = usuario?.role === "MECANICO"
+          ? vessels.filter(v => v.id === usuario.vesselId)
+          : vessels;
+
+        const barcosConTareas = vesselsFiltrados.map((barco) => ({
           ...barco,
           tareas: tareas.filter((t) => t.equipment?.vesselId === barco.id),
         }));
@@ -203,12 +210,8 @@ export default function Maintenance() {
                                   }}
                                 >
                                   <option value="OK">✓ OK</option>
-                                  <option value="PENDIENTE">
-                                    ⏳ Pendiente
-                                  </option>
-                                  <option value="INCIDENCIA">
-                                    ⚠️ Incidencia
-                                  </option>
+                                  <option value="PENDIENTE">⏳ Pendiente</option>
+                                  <option value="INCIDENCIA">⚠️ Incidencia</option>
                                 </select>
                               </div>
                               <div className="form-group" style={{ margin: 0 }}>
@@ -277,7 +280,7 @@ export default function Maintenance() {
                                   fontSize: "0.9rem",
                                 }}
                               >
-                                {cargando ? 'Guardando...' : 'Guardar'}
+                                {cargando ? "Guardando..." : "Guardar"}
                               </button>
                             </form>
                           </td>

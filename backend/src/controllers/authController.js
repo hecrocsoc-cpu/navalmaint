@@ -31,7 +31,7 @@ const register = async (req, res, next) => {
     )
 
     res.status(201).json({
-      usuario: { id: usuario.id, email: usuario.email, nombre: usuario.nombre, role: usuario.role },
+      usuario: { id: usuario.id, email: usuario.email, nombre: usuario.nombre, role: usuario.role, vesselId: usuario.vesselId },
       token
     })
   } catch (err) {
@@ -65,7 +65,7 @@ const login = async (req, res, next) => {
     )
 
     res.json({
-      usuario: { id: usuario.id, email: usuario.email, nombre: usuario.nombre, role: usuario.role },
+      usuario: { id: usuario.id, email: usuario.email, nombre: usuario.nombre, role: usuario.role, vesselId: usuario.vesselId },
       token
     })
   } catch (err) {
@@ -77,7 +77,7 @@ const me = async (req, res, next) => {
   try {
     const usuario = await prisma.user.findUnique({
       where: { id: req.user.id },
-      select: { id: true, email: true, nombre: true, role: true, createdAt: true }
+      select: { id: true, email: true, nombre: true, role: true, vesselId: true, createdAt: true }
     })
     res.json(usuario)
   } catch (err) {

@@ -23,12 +23,19 @@ export default function Stock() {
         peticion('/stock'),
         peticion('/stock/alertas')
       ])
-      const barcosConStock = vessels.map(barco => ({
+
+      const vesselsFiltrados = usuario?.role === 'MECANICO'
+        ? vessels.filter(v => v.id === usuario.vesselId)
+        : vessels
+
+      const barcosConStock = vesselsFiltrados.map(barco => ({
         ...barco,
         items: items.filter(i => i.vesselId === barco.id)
       }))
       setBarcos(barcosConStock)
-      setAlertas(dataAlertas)
+      setAlertas(dataAlertas.filter(a =>
+        usuario?.role === 'MECANICO' ? a.vesselId === usuario.vesselId : true
+      ))
     } catch (err) {
       setError('Error al cargar stock')
     } finally {

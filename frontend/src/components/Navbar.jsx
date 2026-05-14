@@ -10,6 +10,8 @@ export default function Navbar() {
     navigate("/login");
   };
 
+  const esAdmin = usuario?.role === 'ADMIN';
+
   return (
     <nav className="navbar">
       <div className="navbar-brand">NavalMaint</div>
@@ -19,8 +21,8 @@ export default function Navbar() {
         <Link to="/maintenance">Mantenimiento</Link>
         <Link to="/stock">Stock</Link>
         <Link to="/history">Historial</Link>
-        <Link to="/vessels">Barcos</Link>
-        <Link to="/vessels/new">+ Nuevo</Link>
+        {esAdmin && <Link to="/vessels">Barcos</Link>}
+        {esAdmin && <Link to="/vessels/new">+ Nuevo</Link>}
       </div>
       <div className="navbar-user">
         <span>{usuario?.nombre}</span>

@@ -8,7 +8,7 @@ export default function Equipment() {
   const [barcos, setBarcos] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
-  const [formulario, setFormulario] = useState(null) // vesselId del barco donde se añade
+  const [formulario, setFormulario] = useState(null)
   const [nuevoEquipo, setNuevoEquipo] = useState({ codigo: '', nombre: '', sistema: '', tipo: '' })
   const [mensajeOk, setMensajeOk] = useState('')
   const [errorMsg, setErrorMsg] = useState('')
@@ -16,8 +16,12 @@ export default function Equipment() {
   const cargar = async () => {
     try {
       const vessels = await peticion('/vessels')
+      const vesselsFiltrados = usuario?.role === 'MECANICO'
+        ? vessels.filter(v => v.id === usuario.vesselId)
+        : vessels
+
       const barcosConEquipos = await Promise.all(
-        vessels.map(async (barco) => {
+        vesselsFiltrados.map(async (barco) => {
           const equipos = await peticion(`/equipment/vessel/${barco.id}`)
           return { ...barco, equipos }
         })

@@ -13,6 +13,8 @@ model User {
   password  String
   nombre    String
   role      Role     @default(MECANICO)
+  vesselId  Int?
+  vessel    Vessel?  @relation(fields: [vesselId], references: [id])
   createdAt DateTime @default(now())
   logs      MaintenanceLog[]
 }
@@ -27,6 +29,7 @@ model Vessel {
   createdAt   DateTime    @default(now())
   equipment   Equipment[]
   stockItems  StockItem[]
+  users       User[]
 }
 
 model Equipment {
