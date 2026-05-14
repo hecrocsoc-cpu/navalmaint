@@ -517,3 +517,14 @@ tr:hover td {
   color: #66bb6a;
   font-size: 0.85rem;
 }
+
+/* HISTORIAL */
+.estado-ok { color: #66bb6a; font-size: 0.85rem; }
+.estado-incidencia { color: #ef5350; font-size: 0.85rem; }
+.estado-pendiente { color: #ffa726; font-size: 0.85rem; }
+
+.empty {
+  text-align: center;
+  padding: 3rem;
+  color: #546e7a;
+}

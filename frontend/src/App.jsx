@@ -7,6 +7,7 @@ import Dashboard from "./pages/Dashboard";
 import Equipment from "./pages/Equipment";
 import Maintenance from "./pages/Maintenance";
 import Stock from "./pages/Stock";
+import History from "./pages/History";
 
 const RutaProtegida = ({ children }) => {
   const { usuario, cargando } = useAuth();
@@ -56,6 +57,14 @@ function App() {
         element={
           <RutaProtegida>
             <Maintenance />
+          </RutaProtegida>
+        }
+      />
+      <Route
+        path="/history"
+        element={
+          <RutaProtegida>
+            <History />
           </RutaProtegida>
         }
       />
