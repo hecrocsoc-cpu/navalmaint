@@ -3,7 +3,7 @@ import { useApi } from '../hooks/useApi'
 import { useAuth } from '../context/AuthContext'
 
 export default function Stock() {
-  const { peticion } = useApi()
+  const { peticion, cargando } = useApi()
   const { usuario } = useAuth()
   const [barcos, setBarcos] = useState([])
   const [alertas, setAlertas] = useState([])
@@ -14,6 +14,7 @@ export default function Stock() {
   const [nuevoItem, setNuevoItem] = useState({ codigo: '', nombre: '', cantidad: '', minimo: '', clase: 'B' })
   const [mensajeOk, setMensajeOk] = useState('')
   const [errorMsg, setErrorMsg] = useState('')
+  const [actualizando, setActualizando] = useState(null)
 
   const cargar = async () => {
     try {
@@ -41,8 +42,28 @@ export default function Stock() {
     setColapsados(prev => ({ ...prev, [id]: !prev[id] }))
   }
 
-  const handleChange = (e) => {
-    setNuevoItem({ ...nuevoItem, [e.target.name]: e.target.value })
+  const handleCantidad = async (item, delta) => {
+    const nuevaCantidad = item.cantidad + delta
+    if (nuevaCantidad < 0) return
+    setActualizando(item.id)
+    try {
+      await peticion(`/stock/${item.id}`, {
+        method: 'put',
+        data: {
+          nombre: item.nombre,
+          codigo: item.codigo,
+          cantidad: nuevaCantidad,
+          minimo: item.minimo,
+          clase: item.clase,
+          vesselId: item.vesselId
+        }
+      })
+      await cargar()
+    } catch (err) {
+      setErrorMsg('Error al actualizar cantidad')
+    } finally {
+      setActualizando(null)
+    }
   }
 
   const handleAñadir = async (e) => {
@@ -66,6 +87,10 @@ export default function Stock() {
     } catch (err) {
       setErrorMsg(err.message)
     }
+  }
+
+  const handleChange = (e) => {
+    setNuevoItem({ ...nuevoItem, [e.target.name]: e.target.value })
   }
 
   if (loading) return <div className="loading">Cargando stock...</div>
@@ -104,7 +129,7 @@ export default function Stock() {
             <span style={{ color: '#4a9eff', fontSize: '1rem' }}>
               {colapsados[barco.id] ? '▶' : '▼'}
             </span>
-            <h2 style={{ color: '#4a9eff', fontSize: '1.1rem' }}>🚢 {barco.nombre}</h2>
+            <h2 style={{ color: '#4a9eff', fontSize: '1.1rem' }}>{barco.nombre}</h2>
             <span className="badge">{barco.items.length} items</span>
             <span className="eq-sistema">{barco.matricula}</span>
           </div>
@@ -123,6 +148,7 @@ export default function Stock() {
                       <th>Mínimo</th>
                       <th>Clase</th>
                       <th>Estado</th>
+                      <th>Actualizar</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -138,6 +164,27 @@ export default function Stock() {
                             ? <span className="estado-alerta">⚠️ Bajo</span>
                             : <span className="estado-ok">✓ OK</span>
                           }
+                        </td>
+                        <td>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                            <button
+                              onClick={() => handleCantidad(item, -1)}
+                              disabled={actualizando === item.id || item.cantidad === 0}
+                              style={{ width: 28, height: 28, background: '#2d1b1b', border: '1px solid #ef4444', borderRadius: 6, color: '#ef4444', cursor: 'pointer', fontSize: '1rem', lineHeight: 1 }}
+                            >
+                              −
+                            </button>
+                            <span style={{ minWidth: 24, textAlign: 'center' }}>
+                              {actualizando === item.id ? '...' : item.cantidad}
+                            </span>
+                            <button
+                              onClick={() => handleCantidad(item, +1)}
+                              disabled={actualizando === item.id}
+                              style={{ width: 28, height: 28, background: '#1b2d1b', border: '1px solid #22c55e', borderRadius: 6, color: '#22c55e', cursor: 'pointer', fontSize: '1rem', lineHeight: 1 }}
+                            >
+                              +
+                            </button>
+                          </div>
                         </td>
                       </tr>
                     ))}
@@ -174,8 +221,8 @@ export default function Stock() {
                         </select>
                       </div>
                       <div style={{ display: 'flex', gap: 8, marginTop: 8 }}>
-                        <button type="submit" style={{ flex: 1, padding: '8px', background: '#4a9eff', border: 'none', borderRadius: 8, color: 'white', cursor: 'pointer' }}>
-                          Guardar
+                        <button type="submit" disabled={cargando} style={{ flex: 1, padding: '8px', background: '#4a9eff', border: 'none', borderRadius: 8, color: 'white', cursor: 'pointer' }}>
+                          {cargando ? 'Guardando...' : 'Guardar'}
                         </button>
                         <button type="button" onClick={() => setFormulario(null)} style={{ flex: 1, padding: '8px', background: 'transparent', border: '1px solid #2d3f6b', borderRadius: 8, color: '#94a3b8', cursor: 'pointer' }}>
                           Cancelar

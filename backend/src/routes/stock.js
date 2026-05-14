@@ -17,7 +17,7 @@ router.get('/', verifyToken, getStock)
 router.get('/alertas', verifyToken, getStockAlertas)
 router.get('/:id', verifyToken, getStockById)
 router.post('/', verifyToken, verifyRole('ADMIN'), stockValidation, createStockItem)
-router.put('/:id', verifyToken, verifyRole('ADMIN'), stockValidation, updateStockItem)
+router.put('/:id', verifyToken, stockValidation, updateStockItem)
 router.delete('/:id', verifyToken, verifyRole('ADMIN'), deleteStockItem)
 
 module.exports = router
