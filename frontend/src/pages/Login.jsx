@@ -24,7 +24,7 @@ function Login() {
     }
 
     try {
-      const datos = await peticion('/api/auth/login', {
+      const datos = await peticion('/auth/login', {
         method: 'post',
         data: form
       })

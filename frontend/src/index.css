@@ -478,3 +478,42 @@ tr:hover td {
 .table tr:hover td {
   background: #0d2137;
 }
+
+/* STOCK */
+.alertas-box {
+  background: #1a0a0a;
+  border: 1px solid #c62828;
+  border-radius: 8px;
+  padding: 1rem 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.alertas-box h3 {
+  color: #ef5350;
+  margin-bottom: 0.75rem;
+  font-size: 1rem;
+}
+
+.alerta-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.3rem 0;
+  color: #b0bec5;
+  font-size: 0.9rem;
+  border-bottom: 1px solid #2a0a0a;
+}
+
+.alerta-qty {
+  color: #ef5350;
+  font-weight: 600;
+}
+
+.estado-alerta {
+  color: #ef5350;
+  font-size: 0.85rem;
+}
+
+.estado-ok {
+  color: #66bb6a;
+  font-size: 0.85rem;
+}

@@ -6,6 +6,7 @@ import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
 import Equipment from "./pages/Equipment";
 import Maintenance from "./pages/Maintenance";
+import Stock from "./pages/Stock";
 
 const RutaProtegida = ({ children }) => {
   const { usuario, cargando } = useAuth();
@@ -39,6 +40,14 @@ function App() {
         element={
           <RutaProtegida>
             <Equipment />
+          </RutaProtegida>
+        }
+      />
+      <Route
+        path="/stock"
+        element={
+          <RutaProtegida>
+            <Stock />
           </RutaProtegida>
         }
       />
