@@ -22,7 +22,8 @@ export default function Navbar() {
         <Link to="/stock">Stock</Link>
         <Link to="/history">Historial</Link>
         {esAdmin && <Link to="/vessels">Barcos</Link>}
-        {esAdmin && <Link to="/vessels/new">+ Nuevo</Link>}
+        {esAdmin && <Link to="/vessels/new">+ Barco</Link>}
+        {esAdmin && <Link to="/users">Usuarios</Link>}
       </div>
       <div className="navbar-user">
         <span>{usuario?.nombre}</span>

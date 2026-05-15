@@ -97,5 +97,15 @@ const createLog = async (req, res, next) => {
     next(err);
   }
 };
+const deleteLog = async (req, res, next) => {
+  try {
+    await prisma.maintenanceLog.delete({
+      where: { id: parseInt(req.params.id) },
+    });
+    res.json({ message: "Registro eliminado correctamente" });
+  } catch (err) {
+    next(err);
+  }
+};
 
-module.exports = { getLogs, getLogById, createLog };
+module.exports = { getLogs, getLogById, createLog, deleteLog };

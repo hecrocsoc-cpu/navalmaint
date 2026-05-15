@@ -10,13 +10,12 @@ import Stock from "./pages/Stock";
 import History from "./pages/History";
 import NewVessel from "./pages/NewVessel";
 import Vessels from "./pages/Vessels";
+import Users from "./pages/Users";
 
 const RutaProtegida = ({ children }) => {
   const { usuario, cargando } = useAuth();
-
   if (cargando) return <div>Cargando...</div>;
   if (!usuario) return <Navigate to="/login" />;
-
   return (
     <>
       <Navbar />
@@ -30,62 +29,14 @@ function App() {
     <Routes>
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
-      <Route
-        path="/dashboard"
-        element={
-          <RutaProtegida>
-            <Dashboard />
-          </RutaProtegida>
-        }
-      />
-      <Route
-        path="/equipment"
-        element={
-          <RutaProtegida>
-            <Equipment />
-          </RutaProtegida>
-        }
-      />
-      <Route
-        path="/stock"
-        element={
-          <RutaProtegida>
-            <Stock />
-          </RutaProtegida>
-        }
-      />
-      <Route
-        path="/maintenance"
-        element={
-          <RutaProtegida>
-            <Maintenance />
-          </RutaProtegida>
-        }
-      />
-      <Route
-        path="/history"
-        element={
-          <RutaProtegida>
-            <History />
-          </RutaProtegida>
-        }
-      />
-      <Route
-        path="/vessels/new"
-        element={
-          <RutaProtegida>
-            <NewVessel />
-          </RutaProtegida>
-        }
-      />
-      <Route
-        path="/vessels"
-        element={
-          <RutaProtegida>
-            <Vessels />
-          </RutaProtegida>
-        }
-      />
+      <Route path="/dashboard" element={<RutaProtegida><Dashboard /></RutaProtegida>} />
+      <Route path="/equipment" element={<RutaProtegida><Equipment /></RutaProtegida>} />
+      <Route path="/stock" element={<RutaProtegida><Stock /></RutaProtegida>} />
+      <Route path="/maintenance" element={<RutaProtegida><Maintenance /></RutaProtegida>} />
+      <Route path="/history" element={<RutaProtegida><History /></RutaProtegida>} />
+      <Route path="/vessels/new" element={<RutaProtegida><NewVessel /></RutaProtegida>} />
+      <Route path="/vessels" element={<RutaProtegida><Vessels /></RutaProtegida>} />
+      <Route path="/users" element={<RutaProtegida><Users /></RutaProtegida>} />
       <Route path="*" element={<Navigate to="/login" />} />
     </Routes>
   );
