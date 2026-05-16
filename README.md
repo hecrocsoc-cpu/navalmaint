@@ -55,17 +55,17 @@ PORT=3000
 ## Roles y permisos
 
 **ADMIN**
-- Ve todos los barcos y todos sus datos
-- Crear, editar y borrar barcos, equipos y tareas
-- Gestionar usuarios — asignar barco y cambiar rol
+- Ve todos los buques y todos sus datos
+- Crear, editar y borrar buques, equipos y tareas
+- Gestionar usuarios — asignar buque y cambiar rol
 - Ver y eliminar logs en el historial
 - Acceso completo a todas las páginas
 
 **MECANICO**
-- Solo ve su barco asignado (vesselId) en todas las vistas
+- Solo ve su buque asignado (vesselId) en todas las vistas
 - Puede registrar logs de mantenimiento
-- Puede gestionar stock de su barco
-- No puede crear ni borrar barcos, equipos ni tareas
+- Puede gestionar stock de su buque
+- No puede crear ni borrar buques, equipos ni tareas
 
 ⚠️ La seguridad de roles está en el backend — el middleware `verifyRole` protege todas las rutas sensibles.
 
@@ -73,23 +73,23 @@ PORT=3000
 
 ## API REST
 Auth:      POST /api/auth/register
-POST /api/auth/login
-GET  /api/auth/me
+           POST /api/auth/login
+           GET  /api/auth/me
 Vessels:   GET/POST        /api/vessels
-GET/PUT/DELETE  /api/vessels/:id
+           GET/PUT/DELETE  /api/vessels/:id
 Equipment: GET  /api/equipment/vessel/:vesselId
-GET/POST        /api/equipment
-GET/PUT/DELETE  /api/equipment/:id
+           GET/POST        /api/equipment
+           GET/PUT/DELETE  /api/equipment/:id
 Tasks:     GET/POST        /api/tasks
-GET/PUT/DELETE  /api/tasks/:id
+           GET/PUT/DELETE  /api/tasks/:id
 Logs:      GET/POST        /api/logs
-GET/DELETE      /api/logs/:id
+           GET/DELETE      /api/logs/:id
 Stock:     GET/POST        /api/stock
-GET             /api/stock/alertas
-GET/PUT/DELETE  /api/stock/:id
+           GET             /api/stock/alertas
+           GET/PUT/DELETE  /api/stock/:id
 Users:     GET             /api/users
-PUT             /api/users/:id/vessel
-PUT             /api/users/:id/role
+           PUT             /api/users/:id/vessel
+           PUT             /api/users/:id/role
 Health:    GET /api/health
 
 ---
@@ -128,3 +128,14 @@ git push origin main
 ## Mejora futura
 
 Integración con API de Anthropic para importar planes de mantenimiento desde PDF. El usuario sube el PDF del manual y el LLM extrae equipos, tareas, frecuencias y códigos automáticamente.
+
+---
+
+## Backlog
+
+- **Dashboard con historial real:** la lógica de tareas pendientes funciona correctamente, pero requiere uso continuado para reflejar el estado real del día. Con historial acumulado, el mecánico ve solo lo que toca según la última vez que se realizó cada tarea.
+- **Panel de gestión de usuarios mejorado:** cambiar contraseña, eliminar usuarios.
+- **Página /vessels/:id:** perfil completo de cada buque con equipos y estadísticas.
+- **Campo ubicacion en StockItem:** ubicación física del repuesto en el buque. Requiere migración.
+- **Calendario visual de mantenimientos.**
+- **Integración API Anthropic:** importar planes de mantenimiento desde PDF. El usuari

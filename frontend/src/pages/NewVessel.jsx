@@ -6,12 +6,12 @@ export default function NewVessel() {
   const { peticion, cargando } = useApi()
   const navigate = useNavigate()
 
-  const [paso, setPaso] = useState(1) // 1 = barco, 2 = equipos
+  const [paso, setPaso] = useState(1) // 1 = buque, 2 = equipos
   const [vesselId, setVesselId] = useState(null)
   const [mensajeOk, setMensajeOk] = useState('')
   const [errorMsg, setErrorMsg] = useState('')
 
-  const [barco, setBarco] = useState({
+  const [buque, setbuque] = useState({
     nombre: '',
     tipo: '',
     matricula: '',
@@ -26,24 +26,24 @@ export default function NewVessel() {
     tipo: ''
   })
 
-  const handleBarcoChange = (e) => {
-    setBarco({ ...barco, [e.target.name]: e.target.value })
+  const handlebuqueChange = (e) => {
+    setbuque({ ...buque, [e.target.name]: e.target.value })
   }
 
   const handleEquipoChange = (e) => {
     setEquipo({ ...equipo, [e.target.name]: e.target.value })
   }
 
-  const crearBarco = async (e) => {
+  const crearbuque = async (e) => {
     e.preventDefault()
     setErrorMsg('')
     try {
       const data = await peticion('/vessels', {
         method: 'post',
-        data: { ...barco, anio: parseInt(barco.anio) }
+        data: { ...buque, anio: parseInt(buque.anio) }
       })
       setVesselId(data.id)
-      setMensajeOk(`Barco "${data.nombre}" creado correctamente`)
+      setMensajeOk(`buque "${data.nombre}" creado correctamente`)
       setPaso(2)
     } catch (err) {
       setErrorMsg(err.message)
@@ -69,7 +69,7 @@ export default function NewVessel() {
   return (
     <div className="page-container">
       <div className="page-header">
-        <h1>🚢 Añadir embarcación</h1>
+        <h1>Añadir buque</h1>
         <span className="badge">Paso {paso} de 2</span>
       </div>
 
@@ -78,30 +78,30 @@ export default function NewVessel() {
 
       {paso === 1 && (
         <div className="auth-card" style={{ maxWidth: 560 }}>
-          <h2 style={{ textAlign: 'left', marginBottom: 24, color: '#4a9eff' }}>Datos de la embarcación</h2>
-          <form onSubmit={crearBarco}>
+          <h2 style={{ textAlign: 'left', marginBottom: 24, color: '#4a9eff' }}>Datos de la buque</h2>
+          <form onSubmit={crearbuque}>
             <div className="form-group">
               <label>Nombre</label>
-              <input name="nombre" value={barco.nombre} onChange={handleBarcoChange} required placeholder="Ej: Guardamar Talía" />
+              <input name="nombre" value={buque.nombre} onChange={handlebuqueChange} required placeholder="Ej: Guardamar Talía" />
             </div>
             <div className="form-group">
               <label>Tipo</label>
-              <input name="tipo" value={barco.tipo} onChange={handleBarcoChange} required placeholder="Ej: Patrullera" />
+              <input name="tipo" value={buque.tipo} onChange={handlebuqueChange} required placeholder="Ej: Patrullera" />
             </div>
             <div className="form-group">
               <label>Matrícula</label>
-              <input name="matricula" value={barco.matricula} onChange={handleBarcoChange} required placeholder="Ej: 7ª-2-09" />
+              <input name="matricula" value={buque.matricula} onChange={handlebuqueChange} required placeholder="Ej: 7ª-2-09" />
             </div>
             <div className="form-group">
               <label>Año de construcción</label>
-              <input name="anio" type="number" value={barco.anio} onChange={handleBarcoChange} required placeholder="Ej: 2009" />
+              <input name="anio" type="number" value={buque.anio} onChange={handlebuqueChange} required placeholder="Ej: 2009" />
             </div>
             <div className="form-group">
               <label>Descripción (opcional)</label>
-              <input name="descripcion" value={barco.descripcion} onChange={handleBarcoChange} placeholder="Ej: Patrullera de Salvamento Marítimo" />
+              <input name="descripcion" value={buque.descripcion} onChange={handlebuqueChange} placeholder="Ej: Patrullera de Salvamento Marítimo" />
             </div>
             <button type="submit" disabled={cargando}>
-              {cargando ? 'Creando...' : 'Crear embarcación →'}
+              {cargando ? 'Creando...' : 'Crear buque →'}
             </button>
           </form>
         </div>

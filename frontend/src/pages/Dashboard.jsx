@@ -5,7 +5,16 @@ import { useApi } from '../hooks/useApi'
 
 const FRECUENCIA_DIAS = {
   DIARIA: 1,
-  SEMANAL: 7
+  CADA_DOS_DIAS: 2,
+  CADA_CUATRO_DIAS: 4,
+  SEMANAL: 7,
+  QUINCENAL: 15,
+  MENSUAL: 30,
+  BIMESTRAL: 60,
+  TRIMESTRAL: 90,
+  SEMESTRAL: 180,
+  ANUAL: 365,
+  BIANUAL: 730
 }
 
 function tareaPendiente(tarea, logs) {
@@ -23,7 +32,7 @@ export default function Dashboard() {
   const { peticion, cargando } = useApi()
   const navigate = useNavigate()
 
-  const [stats, setStats] = useState({ barcos: 0, equipos: 0, tareas: 0, alertas: 0 })
+  const [stats, setStats] = useState({ buques: 0, equipos: 0, tareas: 0, alertas: 0 })
   const [ultimosLogs, setUltimosLogs] = useState([])
   const [tareasPendientes, setTareasPendientes] = useState([])
   const [loading, setLoading] = useState(true)
@@ -46,10 +55,10 @@ export default function Dashboard() {
         ? vessels.filter(v => v.id === usuario.vesselId)
         : vessels
 
-      const equiposPorBarco = await Promise.all(
+      const equiposPorbuque = await Promise.all(
         vesselsFiltrados.map(b => peticion(`/equipment/vessel/${b.id}`))
       )
-      const totalEquipos = equiposPorBarco.reduce((acc, eq) => acc + eq.length, 0)
+      const totalEquipos = equiposPorbuque.reduce((acc, eq) => acc + eq.length, 0)
 
       const alertasFiltradas = usuario?.role === 'MECANICO'
         ? alertas.filter(a => a.vesselId === usuario.vesselId)
@@ -59,19 +68,18 @@ export default function Dashboard() {
         ? logsData.filter(l => l.task?.equipment?.vesselId === usuario.vesselId)
         : logsData
 
-      // Tareas DIARIAS y SEMANALES del barco del usuario
       const tareasFiltradas = tareas.filter(t => {
-        const esDelBarco = usuario?.role === 'MECANICO'
+        const esDelbuque = usuario?.role === 'MECANICO'
           ? t.equipment?.vesselId === usuario.vesselId
           : vesselsFiltrados.some(v => v.id === t.equipment?.vesselId)
         const esFrecuenciaRelevante = ['DIARIA', 'SEMANAL'].includes(t.frecuencia)
-        return esDelBarco && esFrecuenciaRelevante
+        return esDelbuque && esFrecuenciaRelevante
       })
 
       const pendientes = tareasFiltradas.filter(t => tareaPendiente(t, logsData))
 
       setStats({
-        barcos: vesselsFiltrados.length,
+        buques: vesselsFiltrados.length,
         equipos: totalEquipos,
         tareas: tareas.filter(t =>
           usuario?.role === 'MECANICO'
@@ -129,16 +137,16 @@ export default function Dashboard() {
       {/* MÉTRICAS */}
       <div className="cards-grid" style={{ marginBottom: 32 }}>
         <div className="card" onClick={() => navigate('/vessels')} style={{ cursor: 'pointer' }}>
-          <h3 style={{ color: '#4a9eff', fontSize: '2rem', marginBottom: 4 }}>{loading ? '—' : stats.barcos}</h3>
-          <p>🚢 Embarcaciones</p>
+          <h3 style={{ color: '#4a9eff', fontSize: '2rem', marginBottom: 4 }}>{loading ? '—' : stats.buques}</h3>
+          <p>Buques</p>
         </div>
         <div className="card" onClick={() => navigate('/equipment')} style={{ cursor: 'pointer' }}>
           <h3 style={{ color: '#4a9eff', fontSize: '2rem', marginBottom: 4 }}>{loading ? '—' : stats.equipos}</h3>
-          <p>⚙️ Equipos</p>
+          <p>Equipos</p>
         </div>
         <div className="card" onClick={() => navigate('/maintenance')} style={{ cursor: 'pointer' }}>
           <h3 style={{ color: '#4a9eff', fontSize: '2rem', marginBottom: 4 }}>{loading ? '—' : stats.tareas}</h3>
-          <p>🔧 Tareas de mantenimiento</p>
+          <p>Tareas de mantenimiento</p>
         </div>
         <div className="card" onClick={() => navigate('/stock')} style={{ cursor: 'pointer', borderColor: stats.alertas > 0 ? '#ef4444' : undefined }}>
           <h3 style={{ color: stats.alertas > 0 ? '#ef4444' : '#4a9eff', fontSize: '2rem', marginBottom: 4 }}>
@@ -148,10 +156,10 @@ export default function Dashboard() {
         </div>
       </div>
 
-      {/* TAREAS PENDIENTES HOY */}
+      {/* TAREAS PENDIENTES */}
       <div style={{ marginBottom: 32 }}>
         <h2 style={{ color: '#4a9eff', fontSize: '1.1rem', marginBottom: 16 }}>
-          🔧 Tareas pendientes
+          Tareas pendientes
           {!loading && <span className="badge" style={{ marginLeft: 8 }}>{tareasPendientes.length}</span>}
         </h2>
 
@@ -301,21 +309,21 @@ export default function Dashboard() {
         <h2 style={{ color: '#4a9eff', fontSize: '1.1rem', marginBottom: 16 }}>Accesos rápidos</h2>
         <div className="cards-grid">
           <div className="card" onClick={() => navigate('/maintenance')} style={{ cursor: 'pointer' }}>
-            <h3>🔧 Mantenimiento</h3>
+            <h3>Mantenimiento</h3>
             <p>Registrar tarea o incidencia</p>
           </div>
           <div className="card" onClick={() => navigate('/history')} style={{ cursor: 'pointer' }}>
-            <h3>📋 Historial</h3>
+            <h3>Historial</h3>
             <p>Ver todos los registros</p>
           </div>
           <div className="card" onClick={() => navigate('/stock')} style={{ cursor: 'pointer' }}>
-            <h3>📦 Stock</h3>
+            <h3>Stock</h3>
             <p>Gestionar repuestos</p>
           </div>
           {usuario?.role === 'ADMIN' && (
             <div className="card" onClick={() => navigate('/vessels/new')} style={{ cursor: 'pointer' }}>
-              <h3>🚢 Nueva embarcación</h3>
-              <p>Dar de alta un barco</p>
+              <h3>Nuevo buque</h3>
+              <p>Dar de alta un buque</p>
             </div>
           )}
         </div>

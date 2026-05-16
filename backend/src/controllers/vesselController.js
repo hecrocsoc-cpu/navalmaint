@@ -18,7 +18,7 @@ const getVessel = async (req, res, next) => {
       where: { id: parseInt(req.params.id) },
       include: { equipment: true, stockItems: true }
     })
-    if (!vessel) return res.status(404).json({ error: 'Embarcación no encontrada' })
+    if (!vessel) return res.status(404).json({ error: 'Buque no encontrado' })
     res.json(vessel)
   } catch (err) {
     next(err)
@@ -67,7 +67,7 @@ const deleteVessel = async (req, res, next) => {
     await prisma.vessel.delete({
       where: { id: parseInt(req.params.id) }
     })
-    res.json({ message: 'Embarcación eliminada correctamente' })
+    res.json({ message: 'buque eliminado correctamente' })
   } catch (err) {
     next(err)
   }

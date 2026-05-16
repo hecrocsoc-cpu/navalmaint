@@ -4,7 +4,7 @@ import { useApi } from '../hooks/useApi'
 export default function Users() {
   const { peticion } = useApi()
   const [usuarios, setUsuarios] = useState([])
-  const [barcos, setBarcos] = useState([])
+  const [buques, setbuques] = useState([])
   const [loading, setLoading] = useState(true)
   const [mensajeOk, setMensajeOk] = useState('')
   const [error, setError] = useState(null)
@@ -16,7 +16,7 @@ export default function Users() {
         peticion('/vessels')
       ])
       setUsuarios(users)
-      setBarcos(vessels)
+      setbuques(vessels)
     } catch (err) {
       setError('Error al cargar usuarios')
     } finally {
@@ -32,11 +32,11 @@ export default function Users() {
         method: 'put',
         data: { vesselId: vesselId === '' ? null : vesselId }
       })
-      setMensajeOk('Barco asignado correctamente')
+      setMensajeOk('buque asignado correctamente')
       setTimeout(() => setMensajeOk(''), 3000)
       await cargar()
     } catch (err) {
-      setError('Error al asignar barco')
+      setError('Error al asignar buque')
     }
   }
 
@@ -74,8 +74,8 @@ export default function Users() {
             <th>Nombre</th>
             <th>Email</th>
             <th>Rol</th>
-            <th>Barco asignado</th>
-            <th>Barco</th>
+            <th>buque asignado</th>
+            <th>buque</th>
             <th>Rol</th>
           </tr>
         </thead>
@@ -87,7 +87,7 @@ export default function Users() {
               <td><span className="badge">{u.role}</span></td>
               <td>
                 {u.vesselId
-                  ? barcos.find(b => b.id === u.vesselId)?.nombre || `ID ${u.vesselId}`
+                  ? buques.find(b => b.id === u.vesselId)?.nombre || `ID ${u.vesselId}`
                   : <span style={{ color: '#94a3b8' }}>Sin asignar</span>
                 }
               </td>
@@ -107,7 +107,7 @@ export default function Users() {
                     }}
                   >
                     <option value=''>Sin asignar</option>
-                    {barcos.map(b => (
+                    {buques.map(b => (
                       <option key={b.id} value={b.id}>{b.nombre}</option>
                     ))}
                   </select>

@@ -21,8 +21,8 @@ export default function Navbar() {
         <Link to="/maintenance">Mantenimiento</Link>
         <Link to="/stock">Stock</Link>
         <Link to="/history">Historial</Link>
-        {esAdmin && <Link to="/vessels">Barcos</Link>}
-        {esAdmin && <Link to="/vessels/new">+ Barco</Link>}
+        {esAdmin && <Link to="/vessels">Buques</Link>}
+        {esAdmin && <Link to="/vessels/new">+ Buque</Link>}
         {esAdmin && <Link to="/users">Usuarios</Link>}
       </div>
       <div className="navbar-user">

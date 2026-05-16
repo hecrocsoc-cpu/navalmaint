@@ -50,7 +50,7 @@ export default function History() {
   return (
     <div className="page-container">
       <div className="page-header">
-        <h1>📋 Historial de Mantenimiento</h1>
+        <h1>Historial de Mantenimiento</h1>
         <span className="badge">{logs.length} registros</span>
       </div>
 

@@ -5,7 +5,7 @@ import { useAuth } from '../context/AuthContext'
 export default function Stock() {
   const { peticion, cargando } = useApi()
   const { usuario } = useAuth()
-  const [barcos, setBarcos] = useState([])
+  const [buques, setbuques] = useState([])
   const [alertas, setAlertas] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
@@ -28,11 +28,11 @@ export default function Stock() {
         ? vessels.filter(v => v.id === usuario.vesselId)
         : vessels
 
-      const barcosConStock = vesselsFiltrados.map(barco => ({
-        ...barco,
-        items: items.filter(i => i.vesselId === barco.id)
+      const buquesConStock = vesselsFiltrados.map(buque => ({
+        ...buque,
+        items: items.filter(i => i.vesselId === buque.id)
       }))
-      setBarcos(barcosConStock)
+      setbuques(buquesConStock)
       setAlertas(dataAlertas.filter(a =>
         usuario?.role === 'MECANICO' ? a.vesselId === usuario.vesselId : true
       ))
@@ -103,12 +103,12 @@ export default function Stock() {
   if (loading) return <div className="loading">Cargando stock...</div>
   if (error) return <div className="error">{error}</div>
 
-  const totalItems = barcos.reduce((acc, b) => acc + b.items.length, 0)
+  const totalItems = buques.reduce((acc, b) => acc + b.items.length, 0)
 
   return (
     <div className="page-container">
       <div className="page-header">
-        <h1>📦 Stock de Repuestos</h1>
+        <h1>Stock de Repuestos</h1>
         <span className="badge">{totalItems} items</span>
       </div>
 
@@ -127,23 +127,23 @@ export default function Stock() {
         </div>
       )}
 
-      {barcos.map(barco => (
-        <div key={barco.id} style={{ marginBottom: 24 }}>
+      {buques.map(buque => (
+        <div key={buque.id} style={{ marginBottom: 24 }}>
           <div
-            onClick={() => toggleColapsar(barco.id)}
-            style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: colapsados[barco.id] ? 0 : 16, borderBottom: '1px solid #2d3f6b', paddingBottom: 10, cursor: 'pointer' }}
+            onClick={() => toggleColapsar(buque.id)}
+            style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: colapsados[buque.id] ? 0 : 16, borderBottom: '1px solid #2d3f6b', paddingBottom: 10, cursor: 'pointer' }}
           >
             <span style={{ color: '#4a9eff', fontSize: '1rem' }}>
-              {colapsados[barco.id] ? '▶' : '▼'}
+              {colapsados[buque.id] ? '▶' : '▼'}
             </span>
-            <h2 style={{ color: '#4a9eff', fontSize: '1.1rem' }}>{barco.nombre}</h2>
-            <span className="badge">{barco.items.length} items</span>
-            <span className="eq-sistema">{barco.matricula}</span>
+            <h2 style={{ color: '#4a9eff', fontSize: '1.1rem' }}>{buque.nombre}</h2>
+            <span className="badge">{buque.items.length} items</span>
+            <span className="eq-sistema">{buque.matricula}</span>
           </div>
 
-          {!colapsados[barco.id] && (
+          {!colapsados[buque.id] && (
             <div>
-              {barco.items.length === 0 ? (
+              {buque.items.length === 0 ? (
                 <p style={{ color: '#94a3b8', fontSize: '0.9rem', marginBottom: 12 }}>Sin stock registrado</p>
               ) : (
                 <table className="table" style={{ marginBottom: 12 }}>
@@ -159,7 +159,7 @@ export default function Stock() {
                     </tr>
                   </thead>
                   <tbody>
-                    {barco.items.map(item => (
+                    {buque.items.map(item => (
                       <tr key={item.id}>
                         <td><span className="eq-codigo">{item.codigo}</span></td>
                         <td>{item.nombre}</td>
@@ -200,7 +200,7 @@ export default function Stock() {
               )}
 
               {(usuario?.role === 'ADMIN' || usuario?.role === 'MECANICO') && (
-                formulario === barco.id ? (
+                formulario === buque.id ? (
                   <div className="equipment-card" style={{ maxWidth: 400 }}>
                     <form onSubmit={handleAñadir}>
                       <div className="form-group">
@@ -239,7 +239,7 @@ export default function Stock() {
                   </div>
                 ) : (
                   <button
-                    onClick={() => setFormulario(barco.id)}
+                    onClick={() => setFormulario(buque.id)}
                     style={{ marginTop: 8, padding: '8px 20px', background: 'transparent', border: '1px dashed #2d3f6b', borderRadius: 8, color: '#4a9eff', cursor: 'pointer', fontSize: '0.9rem' }}
                   >
                     + Añadir repuesto
