@@ -15,6 +15,8 @@ export default function Stock() {
   const [mensajeOk, setMensajeOk] = useState('')
   const [errorMsg, setErrorMsg] = useState('')
   const [actualizando, setActualizando] = useState(null)
+  const [editandoMinimo, setEditandoMinimo] = useState(null) // id del item en edición
+  const [valorMinimo, setValorMinimo] = useState('')         // valor temporal del input
 
   const cargar = async () => {
     try {
@@ -68,6 +70,37 @@ export default function Stock() {
       await cargar()
     } catch (err) {
       setErrorMsg('Error al actualizar cantidad')
+    } finally {
+      setActualizando(null)
+    }
+  }
+
+  const handleGuardarMinimo = async (item) => {
+    const nuevoMinimo = parseInt(valorMinimo)
+    if (isNaN(nuevoMinimo) || nuevoMinimo < 0) {
+      setErrorMsg('El mínimo debe ser un número igual o mayor a 0')
+      return
+    }
+    setActualizando(item.id)
+    try {
+      await peticion(`/stock/${item.id}`, {
+        method: 'put',
+        data: {
+          nombre: item.nombre,
+          codigo: item.codigo,
+          cantidad: item.cantidad,
+          minimo: nuevoMinimo,
+          clase: item.clase,
+          vesselId: item.vesselId
+        }
+      })
+      setEditandoMinimo(null)
+      setValorMinimo('')
+      setMensajeOk('Mínimo actualizado')
+      setTimeout(() => setMensajeOk(''), 3000)
+      await cargar()
+    } catch (err) {
+      setErrorMsg('Error al actualizar mínimo')
     } finally {
       setActualizando(null)
     }
@@ -164,7 +197,53 @@ export default function Stock() {
                         <td><span className="eq-codigo">{item.codigo}</span></td>
                         <td>{item.nombre}</td>
                         <td>{item.cantidad}</td>
-                        <td>{item.minimo}</td>
+                        <td>
+                          {usuario?.role === 'ADMIN' && editandoMinimo === item.id ? (
+                            <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+                              <input
+                                type="number"
+                                min="0"
+                                value={valorMinimo}
+                                onChange={e => setValorMinimo(e.target.value)}
+                                onKeyDown={e => {
+                                  if (e.key === 'Enter') handleGuardarMinimo(item)
+                                  if (e.key === 'Escape') { setEditandoMinimo(null); setValorMinimo('') }
+                                }}
+                                autoFocus
+                                style={{ width: 56, padding: '3px 6px', background: '#0a1628', border: '1px solid #4a9eff', borderRadius: 6, color: '#e2e8f0', fontSize: '0.9rem' }}
+                              />
+                              <button
+                                onClick={() => handleGuardarMinimo(item)}
+                                disabled={actualizando === item.id}
+                                style={{ padding: '3px 7px', background: '#1b2d1b', border: '1px solid #22c55e', borderRadius: 6, color: '#22c55e', cursor: 'pointer', fontSize: '0.85rem' }}
+                              >
+                                ✓
+                              </button>
+                              <button
+                                onClick={() => { setEditandoMinimo(null); setValorMinimo('') }}
+                                style={{ padding: '3px 7px', background: 'transparent', border: '1px solid #2d3f6b', borderRadius: 6, color: '#94a3b8', cursor: 'pointer', fontSize: '0.85rem' }}
+                              >
+                                ✕
+                              </button>
+                            </div>
+                          ) : (
+                            <span
+                              onClick={() => {
+                                if (usuario?.role !== 'ADMIN') return
+                                setEditandoMinimo(item.id)
+                                setValorMinimo(String(item.minimo))
+                              }}
+                              title={usuario?.role === 'ADMIN' ? 'Clic para editar mínimo' : ''}
+                              style={{
+                                cursor: usuario?.role === 'ADMIN' ? 'pointer' : 'default',
+                                borderBottom: usuario?.role === 'ADMIN' ? '1px dashed #4a9eff' : 'none',
+                                paddingBottom: 1
+                              }}
+                            >
+                              {item.minimo}
+                            </span>
+                          )}
+                        </td>
                         <td><span className="badge">{item.clase}</span></td>
                         <td>
                           {item.cantidad <= item.minimo
