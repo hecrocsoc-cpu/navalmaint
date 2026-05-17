@@ -134,8 +134,8 @@ Integración con API de Anthropic para importar planes de mantenimiento desde PD
 ## Backlog
 
 - **Dashboard con historial real:** la lógica de tareas pendientes funciona correctamente, pero requiere uso continuado para reflejar el estado real del día. Con historial acumulado, el mecánico ve solo lo que toca según la última vez que se realizó cada tarea.
-- **Panel de gestión de usuarios mejorado:** cambiar contraseña, eliminar usuarios.
+- **Panel de gestión de usuarios mejorado:** cambiar contraseña, eliminar usuarios. Nodemailer ya está instalado en el backend para el envío de emails.
 - **Página /vessels/:id:** perfil completo de cada buque con equipos y estadísticas.
 - **Campo ubicacion en StockItem:** ubicación física del repuesto en el buque. Requiere migración.
 - **Calendario visual de mantenimientos.**
-- **Integración API Anthropic:** importar planes de mantenimiento desde PDF. El usuari
+- **Integración API Anthropic:** importar planes de mantenimiento desde PDF. El usuario sube el PDF del manual y el LLM extrae equipos, tareas, frecuencias y códigos automáticamente.
