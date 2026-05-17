@@ -32,7 +32,7 @@ export default function Users() {
         method: 'put',
         data: { vesselId: vesselId === '' ? null : vesselId }
       })
-      setMensajeOk('buque asignado correctamente')
+      setMensajeOk('Buque asignado correctamente')
       setTimeout(() => setMensajeOk(''), 3000)
       await cargar()
     } catch (err) {
@@ -56,13 +56,25 @@ export default function Users() {
     }
   }
 
+  const handleEliminar = async (usuario) => {
+    if (!window.confirm(`¿Eliminar el usuario "${usuario.nombre}"? Esta acción no se puede deshacer.`)) return
+    try {
+      await peticion(`/users/${usuario.id}`, { method: 'delete' })
+      setMensajeOk(`Usuario "${usuario.nombre}" eliminado`)
+      setTimeout(() => setMensajeOk(''), 3000)
+      await cargar()
+    } catch (err) {
+      setError(err.message || 'Error al eliminar usuario')
+    }
+  }
+
   if (loading) return <div className="loading">Cargando usuarios...</div>
   if (error) return <div className="error">{error}</div>
 
   return (
     <div className="page-container">
       <div className="page-header">
-        <h1>👥 Gestión de Usuarios</h1>
+        <h1>Gestión de Usuarios</h1>
         <span className="badge">{usuarios.length} usuarios</span>
       </div>
 
@@ -74,9 +86,10 @@ export default function Users() {
             <th>Nombre</th>
             <th>Email</th>
             <th>Rol</th>
-            <th>buque asignado</th>
-            <th>buque</th>
-            <th>Rol</th>
+            <th>Buque asignado</th>
+            <th>Asignar buque</th>
+            <th>Cambiar rol</th>
+            <th>Eliminar</th>
           </tr>
         </thead>
         <tbody>
@@ -128,6 +141,24 @@ export default function Users() {
                 >
                   {u.role === 'ADMIN' ? '↓ Hacer mecánico' : '↑ Hacer admin'}
                 </button>
+              </td>
+              <td>
+                {u.id !== 1 && (
+                  <button
+                    onClick={() => handleEliminar(u)}
+                    style={{
+                      padding: '4px 10px',
+                      background: 'transparent',
+                      border: '1px solid #ef4444',
+                      borderRadius: 6,
+                      color: '#ef4444',
+                      cursor: 'pointer',
+                      fontSize: '0.8rem'
+                    }}
+                  >
+                    Eliminar
+                  </button>
+                )}
               </td>
             </tr>
           ))}

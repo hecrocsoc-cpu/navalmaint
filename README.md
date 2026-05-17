@@ -131,10 +131,12 @@ Integración con API de Anthropic para importar planes de mantenimiento desde PD
 
 ---
 
+
 ## Backlog
 
 - **Dashboard con historial real:** la lógica de tareas pendientes funciona correctamente, pero requiere uso continuado para reflejar el estado real del día. Con historial acumulado, el mecánico ve solo lo que toca según la última vez que se realizó cada tarea.
-- **Panel de gestión de usuarios mejorado:** cambiar contraseña, eliminar usuarios. Nodemailer ya está instalado en el backend para el envío de emails.
+- **Panel de gestión de usuarios mejorado:** cambiar contraseña. Nodemailer ya está instalado en el backend para el envío de emails.
+- **Eliminar usuario con logs:** actualmente no es posible eliminar usuarios que tengan registros en el historial. Requiere borrado en cascada o eliminación previa de logs.
 - **Página /vessels/:id:** perfil completo de cada buque con equipos y estadísticas.
 - **Campo ubicacion en StockItem:** ubicación física del repuesto en el buque. Requiere migración.
 - **Calendario visual de mantenimientos.**

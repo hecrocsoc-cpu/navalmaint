@@ -43,4 +43,17 @@ const updateRole = async (req, res, next) => {
   }
 }
 
-module.exports = { getUsers, assignVessel, updateRole }
+const deleteUser = async (req, res, next) => {
+  try {
+    const id = parseInt(req.params.id)
+    if (id === 1) {
+      return res.status(403).json({ error: 'No se puede eliminar el administrador principal' })
+    }
+    await prisma.user.delete({ where: { id } })
+    res.json({ message: 'Usuario eliminado correctamente' })
+  } catch (err) {
+    next(err)
+  }
+}
+
+module.exports = { getUsers, assignVessel, updateRole, deleteUser }
