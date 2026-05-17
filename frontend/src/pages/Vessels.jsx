@@ -10,23 +10,34 @@ export default function Vessels() {
   const [buques, setbuques] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
+  const [mensajeOk, setMensajeOk] = useState('')
 
-  useEffect(() => {
-    const cargar = async () => {
-      try {
-        const data = await peticion('/vessels')
-        const buquesFiltrados = usuario?.role === 'MECANICO'
-          ? data.filter(v => v.id === usuario.vesselId)
-          : data
-        setbuques(buquesFiltrados)
-      } catch (err) {
-        setError('Error al cargar buques')
-      } finally {
-        setLoading(false)
-      }
+  const cargar = async () => {
+    try {
+      const data = await peticion('/vessels')
+      const buquesFiltrados = usuario?.role === 'MECANICO'
+        ? data.filter(v => v.id === usuario.vesselId)
+        : data
+      setbuques(buquesFiltrados)
+    } catch (err) {
+      setError('Error al cargar buques')
+    } finally {
+      setLoading(false)
     }
-    cargar()
-  }, [])
+  }
+
+  useEffect(() => { cargar() }, [])
+
+  const handleEliminar = async (buque) => {
+    if (!window.confirm(`¿Eliminar el buque "${buque.nombre}"? Esta acción no se puede deshacer.`)) return
+    try {
+      await peticion(`/vessels/${buque.id}`, { method: 'delete' })
+      setMensajeOk(`Buque "${buque.nombre}" eliminado`)
+      cargar()
+    } catch (err) {
+      setError('Error al eliminar el buque')
+    }
+  }
 
   if (loading) return <div className="loading">Cargando buques...</div>
   if (error) return <div className="error">{error}</div>
@@ -37,6 +48,8 @@ export default function Vessels() {
         <h1>Buques</h1>
         <span className="badge">{buques.length} registradas</span>
       </div>
+
+      {mensajeOk && <div className="success-msg">{mensajeOk}</div>}
 
       <div className="equipment-grid">
         {buques.map(buque => (
@@ -63,6 +76,14 @@ export default function Vessels() {
               >
                 Ver tareas
               </button>
+              {usuario?.role === 'ADMIN' && (
+                <button
+                  onClick={() => handleEliminar(buque)}
+                  style={{ padding: '8px 12px', background: 'transparent', border: '1px solid #ef4444', borderRadius: 8, color: '#ef4444', cursor: 'pointer', fontSize: '0.85rem' }}
+                >
+                  Eliminar
+                </button>
+              )}
             </div>
           </div>
         ))}
