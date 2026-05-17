@@ -28,7 +28,7 @@ function Register() {
     }
 
     try {
-      await peticion('/api/auth/register', {
+      await peticion('/auth/register', {
         method: 'post',
         data: form
       })
