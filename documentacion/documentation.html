@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NavalMaint — Documentación Técnica</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.6.1/mermaid.min.js"></script>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap');
+
+  :root {
+    --navy:    #0a1628;
+    --navy2:   #0f2040;
+    --navy3:   #162d52;
+    --accent:  #e8732a;
+    --accent2: #f09a5c;
+    --steel:   #4a7fa5;
+    --steel2:  #6fa3c4;
+    --text:    #e8e4dc;
+    --text2:   #9ea8b8;
+    --text3:   #6b7a8d;
+    --border:  rgba(255,255,255,0.08);
+    --border2: rgba(255,255,255,0.14);
+    --green:   #3db87a;
+    --red:     #e05252;
+    --amber:   #e8a833;
+    --mono: 'IBM Plex Mono', monospace;
+    --sans: 'IBM Plex Sans', sans-serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { font-family: var(--sans); background: var(--navy); color: var(--text); line-height: 1.6; font-size: 15px; }
+
+  header {
+    background: var(--navy2);
+    border-bottom: 2px solid var(--accent);
+    padding: 1.75rem 3rem;
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    flex-wrap: wrap;
+  }
+  .badge { background: var(--accent); color: #fff; font-family: var(--mono); font-size: 10px; letter-spacing: .12em; padding: 3px 8px; border-radius: 3px; text-transform: uppercase; white-space: nowrap; }
+  header h1 { font-size: 1.1rem; font-weight: 600; }
+  header .meta { font-family: var(--mono); font-size: 11px; color: var(--text3); margin-left: auto; }
+
+  nav { background: var(--navy2); border-bottom: 1px solid var(--border); padding: .6rem 3rem; display: flex; gap: .2rem; flex-wrap: wrap; position: sticky; top: 0; z-index: 100; }
+  nav a { color: var(--text2); text-decoration: none; font-size: 12px; font-family: var(--mono); padding: .3rem .7rem; border-radius: 4px; transition: background .15s, color .15s; letter-spacing: .04em; white-space: nowrap; }
+  nav a:hover { background: var(--navy3); color: var(--accent2); }
+
+  main { max-width: 1100px; margin: 0 auto; padding: 3rem; }
+  section { margin-bottom: 5rem; }
+
+  .sh { display: flex; align-items: baseline; gap: 1rem; margin-bottom: 2rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border2); }
+  .sn { font-family: var(--mono); font-size: 11px; color: var(--accent); letter-spacing: .1em; font-weight: 500; }
+  .sh h2 { font-size: 1.25rem; font-weight: 600; }
+
+  .hero { background: var(--navy2); border: 1px solid var(--border2); border-left: 3px solid var(--accent); border-radius: 8px; padding: 1.75rem 2rem; margin-bottom: 2rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(175px, 1fr)); gap: 1.25rem; }
+  .hs label { font-size: 10px; font-family: var(--mono); color: var(--text3); letter-spacing: .1em; text-transform: uppercase; display: block; margin-bottom: .2rem; }
+  .hs value { font-size: .92rem; font-weight: 500; }
+
+  .tw { overflow-x: auto; border-radius: 8px; border: 1px solid var(--border); }
+  table { width: 100%; border-collapse: collapse; }
+  thead tr { background: var(--navy3); }
+  thead th { padding: .65rem 1rem; font-family: var(--mono); font-size: 11px; font-weight: 500; color: var(--text3); letter-spacing: .08em; text-transform: uppercase; text-align: left; border-bottom: 1px solid var(--border2); white-space: nowrap; }
+  tbody tr { border-bottom: 1px solid var(--border); transition: background .1s; }
+  tbody tr:last-child { border-bottom: none; }
+  tbody tr:hover { background: rgba(255,255,255,.025); }
+  td { padding: .58rem 1rem; font-size: 13.5px; vertical-align: middle; }
+  .sr td { background: rgba(14,32,64,.7); font-family: var(--mono); font-size: 10px; letter-spacing: .1em; color: var(--steel2); padding: .38rem 1rem; text-transform: uppercase; }
+
+  code { font-family: var(--mono); font-size: 12px; background: rgba(232,115,42,.12); color: var(--accent2); padding: 2px 6px; border-radius: 3px; }
+  pre { background: var(--navy3); border: 1px solid var(--border); border-radius: 6px; padding: 1rem 1.2rem; font-family: var(--mono); font-size: 12px; color: var(--text2); overflow-x: auto; line-height: 1.6; white-space: pre; }
+
+  .py { color: var(--green);  font-size: 15px; display: block; text-align: center; }
+  .pn { color: var(--text3);  font-size: 15px; display: block; text-align: center; }
+  .po { color: var(--amber);  font-size: 11px; font-family: var(--mono); display: block; text-align: center; font-weight: 500; }
+  .pp { color: var(--steel2); font-size: 11px; font-family: var(--mono); display: block; text-align: center; }
+
+  .m { font-family: var(--mono); font-size: 11px; font-weight: 600; padding: 3px 7px; border-radius: 3px; letter-spacing: .04em; white-space: nowrap; }
+  .m.get    { background: rgba(61,184,122,.15);  color: var(--green); }
+  .m.post   { background: rgba(100,160,220,.15); color: var(--steel2); }
+  .m.put    { background: rgba(232,168,51,.15);  color: var(--amber); }
+  .m.delete { background: rgba(224,82,82,.15);   color: var(--red); }
+
+  .rb { font-family: var(--mono); font-size: 10px; padding: 2px 6px; border-radius: 3px; font-weight: 500; white-space: nowrap; }
+  .ra { background: rgba(232,115,42,.18); color: var(--accent2); }
+  .rl { background: rgba(61,184,122,.15); color: var(--green); }
+  .rp { background: rgba(100,160,220,.15); color: var(--steel2); }
+
+  .rg { margin-bottom: 2rem; }
+  .rgt { font-family: var(--mono); font-size: 11px; color: var(--steel2); letter-spacing: .1em; text-transform: uppercase; margin-bottom: .65rem; padding-left: .25rem; }
+  .rg-grid { display: grid; gap: .6rem; }
+  .rule { background: var(--navy2); border: 1px solid var(--border); border-radius: 6px; padding: .8rem 1rem; display: flex; gap: 1rem; align-items: flex-start; transition: border-color .15s; }
+  .rule:hover { border-color: var(--border2); }
+  .rc { font-family: var(--mono); font-size: 11px; color: var(--accent); white-space: nowrap; padding-top: 2px; min-width: 110px; font-weight: 500; }
+  .rt { font-size: 13.5px; color: var(--text2); line-height: 1.55; }
+
+  .legend { display: flex; gap: 1.25rem; flex-wrap: wrap; margin-top: 1rem; padding: .85rem 1rem; background: var(--navy2); border: 1px solid var(--border); border-radius: 6px; font-size: 12px; }
+  .li { display: flex; align-items: center; gap: .4rem; color: var(--text2); }
+
+  .gt { font-family: var(--mono); font-size: 11px; color: var(--steel2); letter-spacing: .1em; text-transform: uppercase; margin: 1.75rem 0 .65rem; padding-left: .2rem; }
+  .gt:first-child { margin-top: 0; }
+
+  .eb { background: var(--navy2); border: 1px solid var(--border); border-radius: 8px; margin-bottom: .75rem; overflow: hidden; }
+  .eh { padding: .8rem 1.1rem; display: flex; align-items: center; gap: .8rem; cursor: pointer; user-select: none; transition: background .15s; border-bottom: 1px solid transparent; flex-wrap: wrap; }
+  .eh:hover { background: rgba(255,255,255,.03); }
+  .eh.open { border-bottom-color: var(--border); }
+  .ep { font-family: var(--mono); font-size: 13px; color: var(--text); flex: 1; min-width: 200px; }
+  .ed { font-size: 12px; color: var(--text3); }
+  .ebody { padding: 1rem 1.1rem; display: none; }
+  .ebody.open { display: block; }
+  .ebody h4 { font-family: var(--mono); font-size: 11px; color: var(--text3); letter-spacing: .08em; text-transform: uppercase; margin-bottom: .45rem; margin-top: .9rem; }
+  .ebody h4:first-child { margin-top: 0; }
+
+  #erd-wrap { background: var(--navy2); border: 1px solid var(--border); border-radius: 8px; padding: 1.75rem; overflow-x: auto; }
+  #erd-wrap .mermaid { display: flex; justify-content: center; }
+  .ir { display: flex; gap: 2rem; flex-wrap: wrap; margin-top: 1rem; font-size: 12px; color: var(--text3); font-family: var(--mono); }
+
+  footer { text-align: center; padding: 2.5rem 3rem; font-family: var(--mono); font-size: 11px; color: var(--text3); border-top: 1px solid var(--border); letter-spacing: .06em; }
+  footer a { color: var(--steel2); text-decoration: none; }
+
+  @media (max-width:640px) { header, nav, main { padding-left: 1.25rem; padding-right: 1.25rem; } }
+  @media print {
+    :root { --navy:#fff; --navy2:#f5f5f5; --navy3:#eee; --text:#111; --text2:#333; --text3:#666; --border:#ddd; --border2:#ccc; --accent:#c0541a; --accent2:#c0541a; --steel:#1a5f8a; --steel2:#1a5f8a; }
+    nav { position: static; }
+    .ebody { display: block !important; }
+    section { page-break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <span class="badge">v1.0</span>
+  <h1>NavalMaint — Documentación Técnica</h1>
+  <span class="meta">Héctor Rodríguez Socorro · Bootcamp Full Stack · 2025</span>
+</header>
+
+<nav>
+  <a href="#overview">01 Proyecto</a>
+  <a href="#erd">02 Diagrama ER</a>
+  <a href="#roles">03 Roles y permisos</a>
+  <a href="#endpoints">04 Endpoints</a>
+  <a href="#reglas">05 Reglas de negocio</a>
+  <a href="#postman">06 Colección Postman</a>
+</nav>
+
+<main>
+
+<!-- 01 -->
+<section id="overview">
+  <div class="sh"><span class="sn">01</span><h2>Descripción del proyecto</h2></div>
+  <div class="hero">
+    <div class="hs"><label>Embarcación</label><value>Guardamar Talía</value></div>
+    <div class="hs"><label>Armador</label><value>Salvamento Marítimo</value></div>
+    <div class="hs"><label>Construcción</label><value>Astilleros Armón · 2009</value></div>
+    <div class="hs"><label>Eslora</label><value>31,9 metros</value></div>
+    <div class="hs"><label>Motores principales</label><value>MTU 4000 M70 · 2 × 1740 kW</value></div>
+    <div class="hs"><label>Backend</label><value>Node.js + Express + Prisma 6</value></div>
+    <div class="hs"><label>Base de datos</label><value>PostgreSQL · Railway</value></div>
+    <div class="hs"><label>Frontend</label><value>React 18 + Vite · Vercel</value></div>
+    <div class="hs"><label>Auth</label><value>JWT · 24h · bcryptjs</value></div>
+    <div class="hs"><label>Tests</label><value>8 tests · Jest + Supertest</value></div>
+  </div>
+  <p style="color:var(--text2);max-width:740px;line-height:1.8;">NavalMaint cubre el hueco entre el software industrial de grandes navieras (SERTICA, AMOS, ManWinWin) y las apps de recreo, con un mercado estimado de 2.500M$ en 2024. Cualquier embarcación puede registrarse con sus propios equipos, plan de mantenimiento y stock de repuestos. El caso de uso base es el Guardamar Talía, cuyo plan de mantenimiento real sirve como seed de datos.</p>
+</section>
+
+<!-- 02 -->
+<section id="erd">
+  <div class="sh"><span class="sn">02</span><h2>Diagrama entidad-relación</h2></div>
+  <div id="erd-wrap">
+    <div class="mermaid">
+erDiagram
+  User {
+    Int id PK
+    String email UK
+    String password
+    String nombre
+    Role role
+    Int vesselId FK
+    DateTime createdAt
+  }
+  Vessel {
+    Int id PK
+    String nombre
+    String tipo
+    String matricula UK
+    Int anio
+    String descripcion
+    DateTime createdAt
+  }
+  Equipment {
+    Int id PK
+    String codigo
+    String nombre
+    String sistema
+    String tipo
+    Int vesselId FK
+  }
+  MaintenanceTask {
+    Int id PK
+    String codigo
+    String descripcion
+    Frecuencia frecuencia
+    String accion
+    Int equipmentId FK
+  }
+  MaintenanceLog {
+    Int id PK
+    DateTime fecha
+    Float horasMotor
+    Estado estado
+    String observaciones
+    Int taskId FK
+    Int userId FK
+  }
+  StockItem {
+    Int id PK
+    String nombre
+    String codigo
+    Int cantidad
+    Int minimo
+    Clase clase
+    Int vesselId FK
+  }
+  Vessel ||--o{ User : "asignado a"
+  Vessel ||--o{ Equipment : "tiene"
+  Vessel ||--o{ StockItem : "tiene"
+  Equipment ||--o{ MaintenanceTask : "tiene"
+  MaintenanceTask ||--o{ MaintenanceLog : "registrado en"
+  User ||--o{ MaintenanceLog : "crea"
+    </div>
+  </div>
+  <div class="ir">
+    <span><code>Role</code>: ADMIN · MECANICO</span>
+    <span><code>Estado</code>: OK · INCIDENCIA · PENDIENTE</span>
+    <span><code>Clase</code>: A · B</span>
+    <span><code>Frecuencia</code>: DIARIA · CADA_DOS_DIAS · CADA_CUATRO_DIAS · SEMANAL · QUINCENAL · MENSUAL · BIMESTRAL · TRIMESTRAL · SEMESTRAL · ANUAL · BIANUAL</span>
+  </div>
+</section>
+
+<!-- 03 -->
+<section id="roles">
+  <div class="sh"><span class="sn">03</span><h2>Matriz de roles y permisos</h2></div>
+  <div class="tw">
+    <table>
+      <thead>
+        <tr>
+          <th style="min-width:210px">Recurso / Acción</th>
+          <th style="width:110px;text-align:center">ADMIN</th>
+          <th style="width:140px;text-align:center">MECANICO</th>
+          <th style="width:110px;text-align:center">Sin auth</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="sr"><td colspan="4">Autenticación</td></tr>
+        <tr><td><code>POST</code> /auth/register</td><td><span class="pp">público</span></td><td><span class="pp">público</span></td><td><span class="pp">público</span></td></tr>
+        <tr><td><code>POST</code> /auth/login</td><td><span class="pp">público</span></td><td><span class="pp">público</span></td><td><span class="pp">público</span></td></tr>
+        <tr><td><code>GET</code> /auth/me</td><td><span class="py">✓</span></td><td><span class="py">✓</span></td><td><span class="pn">—</span></td></tr>
+        <tr class="sr"><td colspan="4">Barcos (Vessel)</td></tr>
+        <tr><td><code>GET</code> todos los barcos</td><td><span class="py">✓</span></td><td><span class="po">solo el suyo</span></td><td><span class="pn">—</span></td></tr>
+        <tr><td><code>POST</code> crear barco</td><td><span class="py">✓</span></td><td><span class="pn">—</span></td><td><span class="pn">—</span></td></tr>
+        <tr><td><code>PUT</code> editar barco</td><td><span class="py">✓</span></td><td><span class="pn">—</span></td><td><span class="pn">—</span></td></tr>
+        <tr><td><code>DELETE</code> eliminar barco</td><td><span class="py">✓</span></td><td><span class="pn">—</span></td><td><span class="pn">—</span></td></tr>
+        <tr class="sr"><td colspan="4">Equipos (Equipment)</td></tr>
+        <tr><td><code>GET</code> equipos de un barco</td><td><span class="py">✓</span></td><td><span class="po">solo su barco</span></td><td><span class="pn">—</span></td></tr>
+        <tr><td><code>POST</code> crear equipo</td><td><span class="py">✓</span></td><td><span class="pn">—</span></td><td><span class="pn">—</span></td></tr>
+        <tr><td><code>PUT</code> editar equipo</td><td><span class="py">✓</span></td><td><span class="pn">—</span></td><td><span class="pn">—</span></td></tr>
+        <tr><td><code>DELETE</code> eliminar equipo</td><td><span class="py">✓</span></td><td><span class="pn">—</span></td><td><span class="pn">—</span></td></tr>
+        <tr class="sr"><td colspan="4">Tareas (MaintenanceTask)</td></tr>
+        <tr><td><code>GET</code> todas las tareas</td><td><span class="py">✓</span></td><td><span class="po">solo su barco</span></td><td><span class="pn">—</span></td></tr>
+        <tr><td><code>POST</code> crear tarea</td><td><span class="py">✓</span></td><td><span class="pn">—</span></td><td><span class="pn">—</span></td></tr>
+        <tr><td><code>PUT</code> editar tarea</td><td><span class="py">✓</span></td><td><span class="pn">—</span></td><td><span class="pn">—</span></td></tr>
+        <tr><td><code>DELETE</code> eliminar tarea</td><td><span class="py">✓</span></td><td><span class="pn">—</span></td><td><span class="pn">—</span></td></tr>
+        <tr class="sr"><td colspan="4">Logs de mantenimiento (MaintenanceLog)</td></tr>
+        <tr><td><code>GET</code> todos los logs</td><td><span class="py">✓ todos</span></td><td><span class="po">solo su barco</span></td><td><span class="pn">—</span></td></tr>
+        <tr><td><code>POST</code> registrar log</td><td><span class="py">✓</span></td><td><span class="py">✓</span></td><td><span class="pn">—</span></td></tr>
+        <tr><td><code>DELETE</code> eliminar log</td><td><span class="py">✓</span></td><td><span class="pn">—</span></td><td><span class="pn">—</span></td></tr>
+        <tr class="sr"><td colspan="4">Stock (StockItem)</td></tr>
+        <tr><td><code>GET</code> stock</td><td><span class="py">✓ todos</span></td><td><span class="po">solo su barco</span></td><td><span class="pn">—</span></td></tr>
+        <tr><td><code>GET</code> /stock/alertas</td><td><span class="py">✓</span></td><td><span class="po">solo su barco</span></td><td><span class="pn">—</span></td></tr>
+        <tr><td><code>POST</code> añadir item</td><td><span class="py">✓</span></td><td><span class="py">✓</span></td><td><span class="pn">—</span></td></tr>
+        <tr><td><code>PUT</code> actualizar cantidad</td><td><span class="py">✓</span></td><td><span class="py">✓</span></td><td><span class="pn">—</span></td></tr>
+        <tr><td><code>DELETE</code> eliminar item</td><td><span class="py">✓</span></td><td><span class="pn">—</span></td><td><span class="pn">—</span></td></tr>
+        <tr class="sr"><td colspan="4">Usuarios (User)</td></tr>
+        <tr><td><code>GET</code> listar usuarios</td><td><span class="py">✓</span></td><td><span class="pn">—</span></td><td><span class="pn">—</span></td></tr>
+        <tr><td><code>PUT</code> asignar barco</td><td><span class="py">✓</span></td><td><span class="pn">—</span></td><td><span class="pn">—</span></td></tr>
+        <tr><td><code>PUT</code> cambiar rol</td><td><span class="py">✓</span></td><td><span class="pn">—</span></td><td><span class="pn">—</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="legend">
+    <div class="li"><span class="py" style="display:inline">✓</span> Permitido (todos los registros)</div>
+    <div class="li"><span class="po" style="display:inline;font-size:11px;">parcial</span> Permitido, filtrado por <code>vesselId</code></div>
+    <div class="li"><span class="pn" style="display:inline">—</span> Denegado · 401 sin token · 403 rol insuficiente</div>
+    <div class="li" style="color:var(--text3);font-size:11px;">⚠ Seguridad real en backend con middleware <code>verifyRole</code>. El frontend solo oculta opciones por UX.</div>
+  </div>
+</section>
+
+<!-- 04 -->
+<section id="endpoints">
+  <div class="sh"><span class="sn">04</span><h2>Referencia de endpoints</h2></div>
+  <div class="tw">
+    <table>
+      <thead>
+        <tr>
+          <th style="width:75px">Método</th>
+          <th>Ruta</th>
+          <th>Descripción</th>
+          <th style="width:120px">Acceso</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="sr"><td colspan="4">Health</td></tr>
+        <tr><td><span class="m get">GET</span></td><td><code>/api/health</code></td><td>Estado del servidor</td><td><span class="rb rp">público</span></td></tr>
+        <tr class="sr"><td colspan="4">Auth</td></tr>
+        <tr><td><span class="m post">POST</span></td><td><code>/api/auth/register</code></td><td>Registrar nuevo usuario</td><td><span class="rb rp">público</span></td></tr>
+        <tr><td><span class="m post">POST</span></td><td><code>/api/auth/login</code></td><td>Login · devuelve JWT + vesselId</td><td><span class="rb rp">público</span></td></tr>
+        <tr><td><span class="m get">GET</span></td><td><code>/api/auth/me</code></td><td>Perfil del usuario autenticado</td><td><span class="rb rl">todos</span></td></tr>
+        <tr class="sr"><td colspan="4">Vessels</td></tr>
+        <tr><td><span class="m get">GET</span></td><td><code>/api/vessels</code></td><td>Listar barcos (filtrado por rol)</td><td><span class="rb rl">todos</span></td></tr>
+        <tr><td><span class="m get">GET</span></td><td><code>/api/vessels/:id</code></td><td>Barco por ID</td><td><span class="rb rl">todos</span></td></tr>
+        <tr><td><span class="m post">POST</span></td><td><code>/api/vessels</code></td><td>Crear barco</td><td><span class="rb ra">ADMIN</span></td></tr>
+        <tr><td><span class="m put">PUT</span></td><td><code>/api/vessels/:id</code></td><td>Editar barco</td><td><span class="rb ra">ADMIN</span></td></tr>
+        <tr><td><span class="m delete">DELETE</span></td><td><code>/api/vessels/:id</code></td><td>Eliminar barco</td><td><span class="rb ra">ADMIN</span></td></tr>
+        <tr class="sr"><td colspan="4">Equipment</td></tr>
+        <tr><td><span class="m get">GET</span></td><td><code>/api/equipment/vessel/:vesselId</code></td><td>Equipos de un barco</td><td><span class="rb rl">todos</span></td></tr>
+        <tr><td><span class="m get">GET</span></td><td><code>/api/equipment/:id</code></td><td>Equipo por ID</td><td><span class="rb rl">todos</span></td></tr>
+        <tr><td><span class="m post">POST</span></td><td><code>/api/equipment</code></td><td>Crear equipo</td><td><span class="rb ra">ADMIN</span></td></tr>
+        <tr><td><span class="m put">PUT</span></td><td><code>/api/equipment/:id</code></td><td>Editar equipo</td><td><span class="rb ra">ADMIN</span></td></tr>
+        <tr><td><span class="m delete">DELETE</span></td><td><code>/api/equipment/:id</code></td><td>Eliminar equipo</td><td><span class="rb ra">ADMIN</span></td></tr>
+        <tr class="sr"><td colspan="4">Tasks</td></tr>
+        <tr><td><span class="m get">GET</span></td><td><code>/api/tasks</code></td><td>Listar tareas · filtros: <code>equipmentId</code>, <code>frecuencia</code></td><td><span class="rb rl">todos</span></td></tr>
+        <tr><td><span class="m get">GET</span></td><td><code>/api/tasks/:id</code></td><td>Tarea por ID</td><td><span class="rb rl">todos</span></td></tr>
+        <tr><td><span class="m post">POST</span></td><td><code>/api/tasks</code></td><td>Crear tarea</td><td><span class="rb ra">ADMIN</span></td></tr>
+        <tr><td><span class="m put">PUT</span></td><td><code>/api/tasks/:id</code></td><td>Editar tarea</td><td><span class="rb ra">ADMIN</span></td></tr>
+        <tr><td><span class="m delete">DELETE</span></td><td><code>/api/tasks/:id</code></td><td>Eliminar tarea</td><td><span class="rb ra">ADMIN</span></td></tr>
+        <tr class="sr"><td colspan="4">Logs</td></tr>
+        <tr><td><span class="m get">GET</span></td><td><code>/api/logs</code></td><td>Listar logs · filtros: <code>taskId</code>, <code>userId</code>, <code>estado</code></td><td><span class="rb rl">todos</span></td></tr>
+        <tr><td><span class="m get">GET</span></td><td><code>/api/logs/:id</code></td><td>Log por ID</td><td><span class="rb rl">todos</span></td></tr>
+        <tr><td><span class="m post">POST</span></td><td><code>/api/logs</code></td><td>Registrar log de mantenimiento</td><td><span class="rb rl">todos</span></td></tr>
+        <tr><td><span class="m delete">DELETE</span></td><td><code>/api/logs/:id</code></td><td>Eliminar log</td><td><span class="rb ra">ADMIN</span></td></tr>
+        <tr class="sr"><td colspan="4">Stock</td></tr>
+        <tr><td><span class="m get">GET</span></td><td><code>/api/stock</code></td><td>Listar stock (filtrado por rol)</td><td><span class="rb rl">todos</span></td></tr>
+        <tr><td><span class="m get">GET</span></td><td><code>/api/stock/alertas</code></td><td>Items con cantidad &lt; mínimo</td><td><span class="rb rl">todos</span></td></tr>
+        <tr><td><span class="m get">GET</span></td><td><code>/api/stock/:id</code></td><td>Item por ID</td><td><span class="rb rl">todos</span></td></tr>
+        <tr><td><span class="m post">POST</span></td><td><code>/api/stock</code></td><td>Añadir item al stock</td><td><span class="rb rl">todos</span></td></tr>
+        <tr><td><span class="m put">PUT</span></td><td><code>/api/stock/:id</code></td><td>Actualizar cantidad</td><td><span class="rb rl">todos</span></td></tr>
+        <tr><td><span class="m delete">DELETE</span></td><td><code>/api/stock/:id</code></td><td>Eliminar item</td><td><span class="rb ra">ADMIN</span></td></tr>
+        <tr class="sr"><td colspan="4">Users</td></tr>
+        <tr><td><span class="m get">GET</span></td><td><code>/api/users</code></td><td>Listar todos los usuarios</td><td><span class="rb ra">ADMIN</span></td></tr>
+        <tr><td><span class="m put">PUT</span></td><td><code>/api/users/:id/vessel</code></td><td>Asignar barco a usuario</td><td><span class="rb ra">ADMIN</span></td></tr>
+        <tr><td><span class="m put">PUT</span></td><td><code>/api/users/:id/role</code></td><td>Cambiar rol de usuario</td><td><span class="rb ra">ADMIN</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div style="margin-top:.85rem;font-size:12px;color:var(--text3);font-family:var(--mono);">
+    Respuesta estándar: <code>{ success: boolean, data?: any, error?: string }</code> · Auth: <code>Authorization: Bearer &lt;token&gt;</code>
+  </div>
+</section>
+
+<!-- 05 -->
+<section id="reglas">
+  <div class="sh"><span class="sn">05</span><h2>Reglas de negocio</h2></div>
+
+  <div class="rg">
+    <div class="rgt">Autenticación y sesión</div>
+    <div class="rg-grid">
+      <div class="rule"><span class="rc">RN-AUTH-01</span><span class="rt">Todo acceso a recursos protegidos requiere un token JWT válido en el header <code>Authorization: Bearer &lt;token&gt;</code>.</span></div>
+      <div class="rule"><span class="rc">RN-AUTH-02</span><span class="rt">El token caduca a las 24 horas. No existe mecanismo de refresh token.</span></div>
+      <div class="rule"><span class="rc">RN-AUTH-03</span><span class="rt">El payload del token incluye <code>id</code>, <code>email</code> y <code>role</code> del usuario.</span></div>
+      <div class="rule"><span class="rc">RN-AUTH-04</span><span class="rt">El <code>vesselId</code> se devuelve en login, registro y <code>/auth/me</code>, y se almacena en el cliente para filtrar todas las vistas.</span></div>
+      <div class="rule"><span class="rc">RN-AUTH-05</span><span class="rt">La verificación de roles se realiza en el backend con middleware <code>verifyRole</code>. El frontend solo oculta opciones por UX; la seguridad real reside en el servidor.</span></div>
+    </div>
+  </div>
+
+  <div class="rg">
+    <div class="rgt">Barcos y equipos</div>
+    <div class="rg-grid">
+      <div class="rule"><span class="rc">RN-VES-01</span><span class="rt">Solo el ADMIN puede crear, editar o eliminar barcos y equipos.</span></div>
+      <div class="rule"><span class="rc">RN-VES-02</span><span class="rt">La matrícula de un barco es única en el sistema (restricción a nivel de base de datos).</span></div>
+      <div class="rule"><span class="rc">RN-VES-03</span><span class="rt">Un MECANICO solo puede ver el barco al que está asignado. El filtro se aplica en backend por <code>vesselId</code>.</span></div>
+      <div class="rule"><span class="rc">RN-VES-04</span><span class="rt">Un barco puede tener múltiples mecánicos asignados. La asignación la realiza el ADMIN desde <code>/users</code>.</span></div>
+      <div class="rule"><span class="rc">RN-VES-05</span><span class="rt">Un MECANICO puede consultar los equipos de su barco, pero no crear ni modificar ninguno.</span></div>
+    </div>
+  </div>
+
+  <div class="rg">
+    <div class="rgt">Tareas y logs de mantenimiento</div>
+    <div class="rg-grid">
+      <div class="rule"><span class="rc">RN-TASK-01</span><span class="rt">Solo el ADMIN puede crear, editar o eliminar tareas de mantenimiento.</span></div>
+      <div class="rule"><span class="rc">RN-TASK-02</span><span class="rt">Cada tarea pertenece a un equipo y tiene una frecuencia entre 11 valores: de <code>DIARIA</code> a <code>BIANUAL</code>.</span></div>
+      <div class="rule"><span class="rc">RN-LOG-01</span><span class="rt">Tanto ADMIN como MECANICO pueden registrar logs (tareas completadas e incidencias).</span></div>
+      <div class="rule"><span class="rc">RN-LOG-02</span><span class="rt">Solo el ADMIN puede eliminar logs. El historial del mecánico es inmutable para garantizar la trazabilidad del mantenimiento.</span></div>
+      <div class="rule"><span class="rc">RN-LOG-03</span><span class="rt">Los logs se consultan con include anidado <code>task → equipment</code> para filtrar por <code>vesselId</code> en historial y dashboard.</span></div>
+      <div class="rule"><span class="rc">RN-LOG-04</span><span class="rt">Un log registra: fecha, horas de motor (opcional), estado (<code>OK</code> / <code>INCIDENCIA</code> / <code>PENDIENTE</code>) y observaciones en texto libre.</span></div>
+    </div>
+  </div>
+
+  <div class="rg">
+    <div class="rgt">Stock</div>
+    <div class="rg-grid">
+      <div class="rule"><span class="rc">RN-STK-01</span><span class="rt">Tanto ADMIN como MECANICO pueden añadir items y actualizar cantidades. El mecánico gestiona el inventario del día a día del barco.</span></div>
+      <div class="rule"><span class="rc">RN-STK-02</span><span class="rt">Solo el ADMIN puede eliminar items del catálogo de stock.</span></div>
+      <div class="rule"><span class="rc">RN-STK-03</span><span class="rt">Cuando <code>cantidad &lt; minimo</code>, el item aparece en <code>GET /stock/alertas</code>.</span></div>
+      <div class="rule"><span class="rc">RN-STK-04</span><span class="rt">Los items se clasifican en clase <code>A</code> (crítico) o <code>B</code> (estándar), según normativa de piezas de respeto para buques de trabajo.</span></div>
+    </div>
+  </div>
+
+  <div class="rg">
+    <div class="rgt">Dashboard</div>
+    <div class="rg-grid">
+      <div class="rule"><span class="rc">RN-DASH-01</span><span class="rt">Las tareas pendientes se calculan dinámicamente comparando los días desde el último log con la frecuencia asignada. Sin campos extra en base de datos.</span></div>
+      <div class="rule"><span class="rc">RN-DASH-02</span><span class="rt">En la versión actual se muestran tareas <code>DIARIA</code> y <code>SEMANAL</code>. Las frecuencias largas están en el backlog.</span></div>
+      <div class="rule"><span class="rc">RN-DASH-03</span><span class="rt">Un ADMIN ve tareas pendientes de todos los barcos. Un MECANICO solo ve las de su barco asignado.</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- 06 -->
+<section id="postman">
+  <div class="sh"><span class="sn">06</span><h2>Colección Postman</h2></div>
+  <p style="color:var(--text2);font-size:13.5px;margin-bottom:1.5rem;">Variables de colección: <code>base_url</code> = <code>http://localhost:3000/api</code> en local o la URL de Railway en producción. <code>token</code> se rellena automáticamente al ejecutar login con el script de test. Haz clic en cada endpoint para ver el body de ejemplo.</p>
+
+  <div class="gt">Health</div>
+  <div class="eb">
+    <div class="eh" onclick="toggle(this)"><span class="m get">GET</span><span class="ep">{{base_url}}/health</span><span class="ed">Estado del servidor</span></div>
+    <div class="ebody"><h4>Respuesta esperada</h4><pre>{ "success": true, "data": "OK" }</pre></div>
+  </div>
+
+  <div class="gt">Auth</div>
+  <div class="eb">
+    <div class="eh" onclick="toggle(this)"><span class="m post">POST</span><span class="ep">{{base_url}}/auth/register</span><span class="ed">Registrar usuario</span></div>
+    <div class="ebody">
+      <h4>Body</h4>
+      <pre>{ "email": "nuevo@navalmaint.com", "password": "Password123!", "nombre": "Nuevo Usuario" }</pre>
+      <h4>Respuesta 201</h4>
+      <pre>{ "success": true, "data": { "token": "...", "user": { "id": 3, "role": "MECANICO", "vesselId": null } } }</pre>
+    </div>
+  </div>
+
+  <div class="eb">
+    <div class="eh" onclick="toggle(this)"><span class="m post">POST</span><span class="ep">{{base_url}}/auth/login</span><span class="ed">Login — guarda token automáticamente</span></div>
+    <div class="ebody">
+      <h4>Body admin (seed)</h4>
+      <pre>{ "email": "admin@navalmaint.com", "password": "Admin1234!" }</pre>
+      <h4>Body mecánico (seed)</h4>
+      <pre>{ "email": "mecanico@navalmaint.com", "password": "Mecanico1234!" }</pre>
+      <h4>Respuesta 200</h4>
+      <pre>{ "success": true, "data": { "token": "eyJ...", "user": { "id": 1, "role": "ADMIN", "vesselId": null } } }</pre>
+      <h4>Script de test Postman (guardar token)</h4>
+      <pre>var json = pm.response.json();
+if (json.data && json.data.token) {
+  pm.collectionVariables.set('token', json.data.token);
+}</pre>
+    </div>
+  </div>
+
+  <div class="eb">
+    <div class="eh" onclick="toggle(this)"><span class="m get">GET</span><span class="ep">{{base_url}}/auth/me</span><span class="ed">Perfil del usuario autenticado</span></div>
+    <div class="ebody"><h4>Header requerido</h4><pre>Authorization: Bearer {{token}}</pre></div>
+  </div>
+
+  <div class="gt">Vessels</div>
+  <div class="eb">
+    <div class="eh" onclick="toggle(this)"><span class="m get">GET</span><span class="ep">{{base_url}}/vessels</span><span class="ed">Listar barcos</span></div>
+    <div class="ebody"><h4>Header</h4><pre>Authorization: Bearer {{token}}</pre></div>
+  </div>
+  <div class="eb">
+    <div class="eh" onclick="toggle(this)"><span class="m post">POST</span><span class="ep">{{base_url}}/vessels</span><span class="ed">Crear barco — solo ADMIN</span></div>
+    <div class="ebody">
+      <h4>Body</h4>
+      <pre>{
+  "nombre": "Guardamar Concepción",
+  "tipo": "Patrullera",
+  "matricula": "7-LZ-5-2024",
+  "anio": 2015,
+  "descripcion": "Patrullera Salvamento Marítimo Las Palmas"
+}</pre>
+    </div>
+  </div>
+  <div class="eb">
+    <div class="eh" onclick="toggle(this)"><span class="m put">PUT</span><span class="ep">{{base_url}}/vessels/:id</span><span class="ed">Editar barco — solo ADMIN</span></div>
+    <div class="ebody"><h4>Body (campos a actualizar)</h4><pre>{ "descripcion": "Nueva descripción" }</pre></div>
+  </div>
+  <div class="eb">
+    <div class="eh" onclick="toggle(this)"><span class="m delete">DELETE</span><span class="ep">{{base_url}}/vessels/:id</span><span class="ed">Eliminar barco — solo ADMIN</span></div>
+    <div class="ebody"><h4>Header</h4><pre>Authorization: Bearer {{token}}</pre></div>
+  </div>
+
+  <div class="gt">Equipment</div>
+  <div class="eb">
+    <div class="eh" onclick="toggle(this)"><span class="m get">GET</span><span class="ep">{{base_url}}/equipment/vessel/1</span><span class="ed">Equipos del Guardamar Talía</span></div>
+    <div class="ebody"><h4>Header</h4><pre>Authorization: Bearer {{token}}</pre></div>
+  </div>
+  <div class="eb">
+    <div class="eh" onclick="toggle(this)"><span class="m post">POST</span><span class="ep">{{base_url}}/equipment</span><span class="ed">Crear equipo — solo ADMIN</span></div>
+    <div class="ebody">
+      <h4>Body</h4>
+      <pre>{
+  "codigo": "MP01",
+  "nombre": "Motor Principal 01",
+  "sistema": "EG",
+  "tipo": "Motor principal",
+  "vesselId": 1
+}</pre>
+    </div>
+  </div>
+
+  <div class="gt">Tasks</div>
+  <div class="eb">
+    <div class="eh" onclick="toggle(this)"><span class="m get">GET</span><span class="ep">{{base_url}}/tasks?equipmentId=1&amp;frecuencia=DIARIA</span><span class="ed">Tareas con filtros opcionales</span></div>
+    <div class="ebody">
+      <h4>Query params opcionales</h4>
+      <pre>equipmentId=1
+frecuencia=DIARIA   (DIARIA | SEMANAL | MENSUAL | ANUAL | ...)</pre>
+    </div>
+  </div>
+  <div class="eb">
+    <div class="eh" onclick="toggle(this)"><span class="m post">POST</span><span class="ep">{{base_url}}/tasks</span><span class="ed">Crear tarea — solo ADMIN</span></div>
+    <div class="ebody">
+      <h4>Body</h4>
+      <pre>{
+  "codigo": "MP01SL0M/CN",
+  "descripcion": "Comprobar nivel de aceite",
+  "frecuencia": "DIARIA",
+  "accion": "CN",
+  "equipmentId": 1
+}</pre>
+    </div>
+  </div>
+
+  <div class="gt">Logs</div>
+  <div class="eb">
+    <div class="eh" onclick="toggle(this)"><span class="m get">GET</span><span class="ep">{{base_url}}/logs?taskId=1&amp;estado=OK</span><span class="ed">Logs con filtros opcionales</span></div>
+    <div class="ebody">
+      <h4>Query params opcionales</h4>
+      <pre>taskId=1
+userId=2
+estado=OK   (OK | INCIDENCIA | PENDIENTE)</pre>
+    </div>
+  </div>
+  <div class="eb">
+    <div class="eh" onclick="toggle(this)"><span class="m post">POST</span><span class="ep">{{base_url}}/logs</span><span class="ed">Registrar log de mantenimiento</span></div>
+    <div class="ebody">
+      <h4>Body — tarea OK</h4>
+      <pre>{
+  "taskId": 1,
+  "estado": "OK",
+  "horasMotor": 1250.5,
+  "observaciones": "Nivel correcto. Sin anomalías."
+}</pre>
+      <h4>Body — incidencia</h4>
+      <pre>{
+  "taskId": 1,
+  "estado": "INCIDENCIA",
+  "horasMotor": 1260.0,
+  "observaciones": "Nivel bajo de aceite en cárter. Se añaden 2L de 15W40."
+}</pre>
+    </div>
+  </div>
+  <div class="eb">
+    <div class="eh" onclick="toggle(this)"><span class="m delete">DELETE</span><span class="ep">{{base_url}}/logs/:id</span><span class="ed">Eliminar log — solo ADMIN</span></div>
+    <div class="ebody"><h4>Header</h4><pre>Authorization: Bearer {{token}}</pre></div>
+  </div>
+
+  <div class="gt">Stock</div>
+  <div class="eb">
+    <div class="eh" onclick="toggle(this)"><span class="m get">GET</span><span class="ep">{{base_url}}/stock/alertas</span><span class="ed">Items con cantidad por debajo del mínimo</span></div>
+    <div class="ebody"><h4>Header</h4><pre>Authorization: Bearer {{token}}</pre></div>
+  </div>
+  <div class="eb">
+    <div class="eh" onclick="toggle(this)"><span class="m post">POST</span><span class="ep">{{base_url}}/stock</span><span class="ed">Añadir item al stock</span></div>
+    <div class="ebody">
+      <h4>Body</h4>
+      <pre>{
+  "nombre": "Aceite motor 15W40",
+  "codigo": "ACE-15W40-200",
+  "cantidad": 200,
+  "minimo": 40,
+  "clase": "B",
+  "vesselId": 1
+}</pre>
+    </div>
+  </div>
+  <div class="eb">
+    <div class="eh" onclick="toggle(this)"><span class="m put">PUT</span><span class="ep">{{base_url}}/stock/:id</span><span class="ed">Actualizar cantidad de stock</span></div>
+    <div class="ebody"><h4>Body</h4><pre>{ "cantidad": 180 }</pre></div>
+  </div>
+
+  <div class="gt">Users</div>
+  <div class="eb">
+    <div class="eh" onclick="toggle(this)"><span class="m put">PUT</span><span class="ep">{{base_url}}/users/:id/vessel</span><span class="ed">Asignar barco a usuario — solo ADMIN</span></div>
+    <div class="ebody"><h4>Body</h4><pre>{ "vesselId": 1 }</pre></div>
+  </div>
+  <div class="eb">
+    <div class="eh" onclick="toggle(this)"><span class="m put">PUT</span><span class="ep">{{base_url}}/users/:id/role</span><span class="ed">Cambiar rol de usuario — solo ADMIN</span></div>
+    <div class="ebody"><h4>Body</h4><pre>{ "role": "MECANICO" }</pre></div>
+  </div>
+
+</section>
+
+</main>
+
+<footer>
+  NavalMaint · Héctor Rodríguez Socorro · Bootcamp Full Stack · 2025 ·
+  <a href="https://github.com/hecrocsoc-cpu/navalmaint">github.com/hecrocsoc-cpu/navalmaint</a> ·
+  <a href="https://navalmaint.vercel.app">navalmaint.vercel.app</a>
+</footer>
+
+<script>
+  mermaid.initialize({
+    startOnLoad: true,
+    theme: 'dark',
+    themeVariables: {
+      darkMode: true,
+      background: '#0f2040',
+      primaryColor: '#162d52',
+      primaryTextColor: '#e8e4dc',
+      primaryBorderColor: 'rgba(255,255,255,0.14)',
+      lineColor: '#4a7fa5',
+      secondaryColor: '#0f2040',
+      tertiaryColor: '#0a1628',
+      fontSize: '13px',
+      fontFamily: 'IBM Plex Mono, monospace',
+    },
+  });
+
+  function toggle(header) {
+    header.classList.toggle('open');
+    header.nextElementSibling.classList.toggle('open');
+  }
+</script>
+</body>
+</html>

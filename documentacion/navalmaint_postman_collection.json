@@ -1,0 +1,686 @@
+{
+  "info": {
+    "_postman_id": "navalmaint-v1",
+    "name": "NavalMaint API",
+    "description": "Colección completa de endpoints para NavalMaint. Importar en Postman. La variable {{base_url}} apunta al servidor local por defecto. Cambiar a la URL de Railway para producción.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:3000/api",
+      "description": "URL base del backend. En producción: https://navalmaint-production.up.railway.app/api"
+    },
+    {
+      "key": "token",
+      "value": "",
+      "description": "JWT obtenido tras el login. Se rellena automáticamente si usas el script de test del endpoint Login."
+    }
+  ],
+  "item": [
+    {
+      "name": "Health",
+      "item": [
+        {
+          "name": "GET Health check",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/health",
+              "host": ["{{base_url}}"],
+              "path": ["health"]
+            }
+          },
+          "response": [],
+          "_postman_description": "Comprueba que el servidor está activo. No requiere autenticación."
+        }
+      ]
+    },
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "POST Register",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"nuevo@navalmaint.com\",\n  \"password\": \"Password123!\",\n  \"nombre\": \"Nuevo Usuario\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/register",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "register"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "POST Login (Admin)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var json = pm.response.json();",
+                  "if (json.data && json.data.token) {",
+                  "  pm.collectionVariables.set('token', json.data.token);",
+                  "  console.log('Token guardado en variable de colección');",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"admin@navalmaint.com\",\n  \"password\": \"Admin1234!\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/login",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "login"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "POST Login (Mecánico)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var json = pm.response.json();",
+                  "if (json.data && json.data.token) {",
+                  "  pm.collectionVariables.set('token', json.data.token);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"mecanico@navalmaint.com\",\n  \"password\": \"Mecanico1234!\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/login",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "login"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GET Me (perfil propio)",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": {
+              "raw": "{{base_url}}/auth/me",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "me"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Vessels",
+      "item": [
+        {
+          "name": "GET Todos los barcos",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": {
+              "raw": "{{base_url}}/vessels",
+              "host": ["{{base_url}}"],
+              "path": ["vessels"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GET Barco por ID",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": {
+              "raw": "{{base_url}}/vessels/1",
+              "host": ["{{base_url}}"],
+              "path": ["vessels", "1"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "POST Crear barco (ADMIN)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Guardamar Concepción\",\n  \"tipo\": \"Patrullera\",\n  \"matricula\": \"7-LZ-5-2024\",\n  \"anio\": 2015,\n  \"descripcion\": \"Patrullera de Salvamento Marítimo en Las Palmas\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/vessels",
+              "host": ["{{base_url}}"],
+              "path": ["vessels"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "PUT Editar barco (ADMIN)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"descripcion\": \"Descripción actualizada\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/vessels/1",
+              "host": ["{{base_url}}"],
+              "path": ["vessels", "1"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "DELETE Eliminar barco (ADMIN)",
+          "request": {
+            "method": "DELETE",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": {
+              "raw": "{{base_url}}/vessels/2",
+              "host": ["{{base_url}}"],
+              "path": ["vessels", "2"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Equipment",
+      "item": [
+        {
+          "name": "GET Equipos por barco",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": {
+              "raw": "{{base_url}}/equipment/vessel/1",
+              "host": ["{{base_url}}"],
+              "path": ["equipment", "vessel", "1"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GET Equipo por ID",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": {
+              "raw": "{{base_url}}/equipment/1",
+              "host": ["{{base_url}}"],
+              "path": ["equipment", "1"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "POST Crear equipo (ADMIN)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"codigo\": \"MP01\",\n  \"nombre\": \"Motor Principal 01\",\n  \"sistema\": \"EG\",\n  \"tipo\": \"Motor principal\",\n  \"vesselId\": 1\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/equipment",
+              "host": ["{{base_url}}"],
+              "path": ["equipment"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "PUT Editar equipo (ADMIN)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Motor Principal 01 (MTU 4000 M70)\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/equipment/1",
+              "host": ["{{base_url}}"],
+              "path": ["equipment", "1"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "DELETE Eliminar equipo (ADMIN)",
+          "request": {
+            "method": "DELETE",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": {
+              "raw": "{{base_url}}/equipment/1",
+              "host": ["{{base_url}}"],
+              "path": ["equipment", "1"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Tasks",
+      "item": [
+        {
+          "name": "GET Todas las tareas",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": {
+              "raw": "{{base_url}}/tasks",
+              "host": ["{{base_url}}"],
+              "path": ["tasks"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GET Tareas filtradas por equipo",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": {
+              "raw": "{{base_url}}/tasks?equipmentId=1",
+              "host": ["{{base_url}}"],
+              "path": ["tasks"],
+              "query": [{ "key": "equipmentId", "value": "1" }]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GET Tareas filtradas por frecuencia",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": {
+              "raw": "{{base_url}}/tasks?frecuencia=DIARIA",
+              "host": ["{{base_url}}"],
+              "path": ["tasks"],
+              "query": [{ "key": "frecuencia", "value": "DIARIA" }]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GET Tarea por ID",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": {
+              "raw": "{{base_url}}/tasks/1",
+              "host": ["{{base_url}}"],
+              "path": ["tasks", "1"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "POST Crear tarea (ADMIN)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"codigo\": \"MP01SL0M/CN\",\n  \"descripcion\": \"Comprobar nivel de aceite\",\n  \"frecuencia\": \"DIARIA\",\n  \"accion\": \"CN\",\n  \"equipmentId\": 1\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/tasks",
+              "host": ["{{base_url}}"],
+              "path": ["tasks"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "PUT Editar tarea (ADMIN)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"frecuencia\": \"SEMANAL\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/tasks/1",
+              "host": ["{{base_url}}"],
+              "path": ["tasks", "1"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "DELETE Eliminar tarea (ADMIN)",
+          "request": {
+            "method": "DELETE",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": {
+              "raw": "{{base_url}}/tasks/1",
+              "host": ["{{base_url}}"],
+              "path": ["tasks", "1"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Logs",
+      "item": [
+        {
+          "name": "GET Todos los logs",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": {
+              "raw": "{{base_url}}/logs",
+              "host": ["{{base_url}}"],
+              "path": ["logs"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GET Logs filtrados por tarea",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": {
+              "raw": "{{base_url}}/logs?taskId=1",
+              "host": ["{{base_url}}"],
+              "path": ["logs"],
+              "query": [{ "key": "taskId", "value": "1" }]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GET Logs filtrados por estado",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": {
+              "raw": "{{base_url}}/logs?estado=INCIDENCIA",
+              "host": ["{{base_url}}"],
+              "path": ["logs"],
+              "query": [{ "key": "estado", "value": "INCIDENCIA" }]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GET Log por ID",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": {
+              "raw": "{{base_url}}/logs/1",
+              "host": ["{{base_url}}"],
+              "path": ["logs", "1"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "POST Registrar log",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"taskId\": 1,\n  \"estado\": \"OK\",\n  \"horasMotor\": 1250.5,\n  \"observaciones\": \"Nivel correcto. Sin anomalías.\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/logs",
+              "host": ["{{base_url}}"],
+              "path": ["logs"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "POST Registrar incidencia",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"taskId\": 1,\n  \"estado\": \"INCIDENCIA\",\n  \"horasMotor\": 1260.0,\n  \"observaciones\": \"Se detecta nivel bajo de aceite en cárter. Se añaden 2L de 15W40.\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/logs",
+              "host": ["{{base_url}}"],
+              "path": ["logs"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "DELETE Eliminar log (ADMIN)",
+          "request": {
+            "method": "DELETE",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": {
+              "raw": "{{base_url}}/logs/1",
+              "host": ["{{base_url}}"],
+              "path": ["logs", "1"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Stock",
+      "item": [
+        {
+          "name": "GET Todo el stock",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": {
+              "raw": "{{base_url}}/stock",
+              "host": ["{{base_url}}"],
+              "path": ["stock"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GET Alertas de stock bajo mínimo",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": {
+              "raw": "{{base_url}}/stock/alertas",
+              "host": ["{{base_url}}"],
+              "path": ["stock", "alertas"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GET Item de stock por ID",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": {
+              "raw": "{{base_url}}/stock/1",
+              "host": ["{{base_url}}"],
+              "path": ["stock", "1"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "POST Añadir item al stock",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Aceite motor 15W40\",\n  \"codigo\": \"ACE-15W40-200\",\n  \"cantidad\": 200,\n  \"minimo\": 40,\n  \"clase\": \"B\",\n  \"vesselId\": 1\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/stock",
+              "host": ["{{base_url}}"],
+              "path": ["stock"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "PUT Actualizar cantidad de stock",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"cantidad\": 180\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/stock/1",
+              "host": ["{{base_url}}"],
+              "path": ["stock", "1"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "DELETE Eliminar item (ADMIN)",
+          "request": {
+            "method": "DELETE",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": {
+              "raw": "{{base_url}}/stock/1",
+              "host": ["{{base_url}}"],
+              "path": ["stock", "1"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Users",
+      "item": [
+        {
+          "name": "GET Todos los usuarios (ADMIN)",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": {
+              "raw": "{{base_url}}/users",
+              "host": ["{{base_url}}"],
+              "path": ["users"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "PUT Asignar barco a usuario (ADMIN)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"vesselId\": 1\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/users/2/vessel",
+              "host": ["{{base_url}}"],
+              "path": ["users", "2", "vessel"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "PUT Cambiar rol de usuario (ADMIN)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"role\": \"MECANICO\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/users/2/role",
+              "host": ["{{base_url}}"],
+              "path": ["users", "2", "role"]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}
