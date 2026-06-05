@@ -33,7 +33,7 @@ end
 # Unset irrelevant variables.
 deactivate nondestructive
 
-set -gx VIRTUAL_ENV 'C:\Users\hector\Desktop\clases\labs\lab ia engine\lab-web-fullstack-with-ai-agent\backend\venv'
+set -gx VIRTUAL_ENV 'C:\Users\hector\Desktop\clases\proyecto front+back\navalmaint\backend-ia\venv'
 
 set -gx _OLD_VIRTUAL_PATH $PATH
 set -gx PATH "$VIRTUAL_ENV/"Scripts $PATH

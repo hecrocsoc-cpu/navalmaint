@@ -8,7 +8,7 @@ if defined _OLD_CODEPAGE (
     "%SystemRoot%\System32\chcp.com" 65001 > nul
 )
 
-set "VIRTUAL_ENV=C:\Users\hector\Desktop\clases\labs\lab ia engine\lab-web-fullstack-with-ai-agent\backend\venv"
+set "VIRTUAL_ENV=C:\Users\hector\Desktop\clases\proyecto front+back\navalmaint\backend-ia\venv"
 
 if not defined PROMPT set PROMPT=$P$G
 
