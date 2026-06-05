@@ -1,4 +1,5 @@
 import os
+import jwt
 from fastapi import FastAPI, Depends, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import StreamingResponse
@@ -11,7 +12,6 @@ load_dotenv()
 
 app = FastAPI(title="NavalMaint AI Agent")
 
-# CORS
 ORIGINS = os.getenv("ALLOWED_ORIGINS", "http://localhost:5173").split(",")
 app.add_middleware(
     CORSMiddleware,
@@ -21,24 +21,25 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Auth
-DEMO_TOKEN = os.getenv("DEMO_TOKEN", "demo-token-12345")
+JWT_SECRET = os.getenv("JWT_SECRET")
 security = HTTPBearer()
 
 def get_current_user(creds: HTTPAuthorizationCredentials = Depends(security)):
-    if creds.credentials != DEMO_TOKEN:
+    try:
+        payload = jwt.decode(creds.credentials, JWT_SECRET, algorithms=["HS256"])
+        return payload
+    except jwt.ExpiredSignatureError:
+        raise HTTPException(status_code=401, detail="Token expirado")
+    except jwt.InvalidTokenError:
         raise HTTPException(status_code=401, detail="Token inválido")
-    return {"user": "demo"}
 
-# Modelos
 class ChatInput(BaseModel):
     message: str
     session_id: str
+    vessel_id: int
 
-# Importar agente (se inicializa al arrancar)
 from agent.agent import agente
 
-# Rutas
 @app.get("/api/health")
 def health():
     return {"status": "ok", "service": "NavalMaint AI"}
@@ -46,20 +47,19 @@ def health():
 @app.post("/api/chat")
 async def chat(body: ChatInput, user=Depends(get_current_user)):
     resultado = agente.invoke(
-        {"messages": [HumanMessage(content=body.message)]},
+        {"messages": [HumanMessage(content=body.message)], "vessel_id": body.vessel_id},
         config={"configurable": {"thread_id": body.session_id}},
     )
-    return {"response": resultado["messages"][-1].content}
+    return {"response": resultado["messages"][-1].content, "session_id": body.session_id}
 
 @app.post("/api/chat/stream")
 async def chat_stream(body: ChatInput, user=Depends(get_current_user)):
     async def generar():
         try:
             async for chunk in agente.astream(
-                {"messages": [HumanMessage(content=body.message)]},
+                {"messages": [HumanMessage(content=body.message)], "vessel_id": body.vessel_id},
                 config={"configurable": {"thread_id": body.session_id}},
             ):
-                print("CHUNK:", chunk)
                 if "llm" in chunk:
                     msg = chunk["llm"]["messages"][-1]
                     if hasattr(msg, "content") and msg.content:

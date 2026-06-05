@@ -27,11 +27,11 @@ export default function Navbar() {
         <Link to="/maintenance" onClick={cerrarMenu}>Mantenimiento</Link>
         <Link to="/stock" onClick={cerrarMenu}>Stock</Link>
         <Link to="/history" onClick={cerrarMenu}>Historial</Link>
+        <Link to="/chat" onClick={cerrarMenu}>Chat IA</Link>
         {esAdmin && <Link to="/vessels" onClick={cerrarMenu}>Buques</Link>}
         {esAdmin && <Link to="/vessels/new" onClick={cerrarMenu}>+ Buque</Link>}
         {esAdmin && <Link to="/users" onClick={cerrarMenu}>Usuarios</Link>}
 
-        {/* En menú móvil: mostrar usuario y botón salir dentro del menú */}
         <div className="navbar-menu-user">
           <span>{usuario?.nombre}</span>
           <span className="badge">{usuario?.role}</span>
