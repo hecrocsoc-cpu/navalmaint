@@ -1,0 +1,49 @@
+BUQUE: GUARDAMAR TALÍA
+VESSEL_ID: 1
+TIPO: Patrullera Salvamento Marítimo
+OPERADOR: Sociedad de Salvamento y Seguridad Marítima (SASEMAR)
+
+DATOS TÉCNICOS:
+- Eslora: 31.9 metros
+- Manga: 7 metros
+- Calado: 2.05 metros
+- Asiento: 1.304 metros
+- Astillero: Astilleros Armon, 2009
+- Pabellón: Español, registro canario
+- Velocidad crucero: 15 nudos, autonomía 1300 millas
+- Velocidad máxima: 25.5 nudos
+- Desplazamiento en rosca: 99.92 Tn
+- Desplazamiento: 120.85 Tn
+- Arqueo bruto: 181 GT/TRB
+- Tanques: 13 (4 agua, 4 gasoil, 2 aceite, 3 residuos oleosos)
+- Tiro de maquinilla: 20 t
+
+EQUIPOS (CÓDIGOS):
+- MP01, MP02: Motores principales MTU serie 4000 M70, 1740kW, 2000rpm, 12 cilindros en V, 4 tiempos. Pistón 165mm, carrera 190mm. Dos turbos en secuencia.
+- MA01, MA02: Motores auxiliares John Deere 6068 TFM75, 84.7kW, 1500rpm, 6 cilindros en línea, 4 tiempos. Alternadores Kohler 80 EFOZD.
+- MG01: Generador de puerto Mosa GE 33 VSK, 24.7kW, 1500rpm, 3 cilindros, refrigerado por aire.
+- RE01, RE02: Reductoras ZF 7550V, relación 2.548:1, presión embrague 17.5 bares.
+- DP01: Depuradora Alfa Laval MMB 304, 3200 l/h, rotor 9510rpm.
+- PT01: Potabilizadora Marnorte BD 40/15, ósmosis inversa, 2000 l/día.
+- PF01: Planta aguas fecales Hamann supermini, vacío.
+- ST01: Servo timón hidráulico ST-2X750, par 2x750T, giro 40º cada banda.
+- CM01: Compresor Atlas Copco, 50L.
+- CA01: Compresor recarga equipos aire respirable.
+- AA01: Aire acondicionado Condaria, 2 aparatos.
+
+CODIFICACIÓN:
+- Equipos: MP01, MP02, MA01, MA02, MG01, RE01, RE02, DP01, PT01, PF01, ST01, CM01, CA01, AA01
+- Sistemas: EG=general, SL=lubricación, AA=admisión aire, SC=combustible, SE=escape, SR=refrigeración, DA=distribución agua, PM=partes móviles, ST=transmisión, SH=hidráulico, SP=presiones, STE=temperaturas, SEL=eléctrico, SCO=control, SD=distribución, SA=arranque
+- Tareas: CN=comprobar nivel, CE=comprobar estado, CNR=comprobar residuos, CM=cambiar, LP=limpieza, AM=acción manual, PR=purga, CP=comprobar presión, CT=comprobar temperaturas, EN=engrase, VM=operar motor 50-70% 30min, CPS=comprobar posición, OV=overhaul
+
+STOCK MÍNIMO CLASE B:
+- Aceite 15W40 motores: 200L
+- Aceite XP69 Schottel: 200L
+- Aceite DTE OIL LIGHT embragues: 200L
+- Aceite SAE30 reductor proa: 40L
+- Aceite hidráulico HP46: 200L
+- Válvulas escape e admisión completas para un cilindro: 1 juego
+- Válvulas inyección combustible: 1/4 juego
+- Juntas empaquetaduras culata para un cilindro: 1 juego
+- Cojinetes empuje reductoras: 1 juego
+- 20% mangueras presión circuitos hidráulicos

@@ -1,0 +1,48 @@
+BUQUE: GUARDAMAR TALÍA | VESSEL_ID: 1
+FRECUENCIA: SEMESTRAL (cada seis meses)
+
+MOTORES PRINCIPALES (MP01, MP02):
+- Comprobar estado alternador | MP01SEL0G/CE | MP02SEL0G/CE
+
+MOTORES AUXILIARES (MA01, MA02):
+- Cambiar aceite | MA01SL0A/CM | MA02SL0A/CM
+- Cambiar filtro de aceite | MA01SL0F/CM | MA02SL0F/CM
+- Comprobar sistema extinción de fuegos | MA01SS0G/CE | MA02SS0G/CE
+- Comprobar estado baterías | MA01SEL0BT/CE | MA02SEL0BT/CE
+- Comprobar ánodos de zinc | MA01SAC0AN/CE | MA02SAC0AN/CE
+- Comprobar correa | MA01ST0CO/CE | MA02ST0CO/CE
+- Comprobar soportes del motor | MA01EG0SO/CE | MA02EG0SO/CE
+
+GENERADOR DE PUERTO (MG01):
+- Revisión parcial del motor | MG01EG0G/CE
+
+REDUCTORAS (RE01, RE02):
+- Comprobar acoplamientos flexibles | RE01PM0U/CE | RE02PM0U/CE
+- Comprobar discos de embrague | RE01ST0EM/CE | RE02ST0EM/CE
+- Control visual de engranajes | RE01ST0G/CE | RE02ST0G/CE
+- Comprobar bombas de aceite | RE01SL0B/CE | RE02SL0B/CE
+- Comprobar unidad de control GCU | RE01SCO0G/CE | RE02SCO0G/CE
+- Comprobar actuadores | RE01ST0AC/CE | RE02ST0AC/CE
+- Recalibrar manómetro presión embrague | RE01SP0M/CPS | RE02SP0M/CPS
+- Limpiar enfriador de aceite | RE01SR0EN/LP | RE02SR0EN/LP
+- Comprobar retenes ejes | RE01ST0U0EJ/CE | RE02ST0U0EJ/CE
+
+POTABILIZADORA (PT01):
+- Comprobar retenes de alta y baja | PT01EG0U/CE
+- Comprobar válvulas | PT01SV0VA/CE
+
+SERVO TIMÓN (ST01):
+- Cambiar aceite | ST01SL0A/CM
+
+COMPRESOR (CM01):
+- Limpiar válvula antirretorno | CM01AA0VA/LP
+
+COMPRESOR AIRE RESPIRABLE (CA01):
+- Cambio válvulas ajuste de presión | CA01SV0VA/CM
+- Limpiar filtros | CA01AA0F/LP
+- Cambiar filtros | CA01AA0F/CM
+- Comprobar válvulas de llenado | CA01SV0VA/CE
+
+AIRE ACONDICIONADO (AA01):
+- Cambiar filtros | AA01AA0F/CM
+- Limpiar serpentines y resto de elementos | AA01SR0G/LP

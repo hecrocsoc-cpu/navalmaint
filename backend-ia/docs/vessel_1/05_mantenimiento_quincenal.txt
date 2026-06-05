@@ -1,0 +1,25 @@
+BUQUE: GUARDAMAR TALÍA | VESSEL_ID: 1
+FRECUENCIA: QUINCENAL (cada dos semanas)
+
+MOTORES PRINCIPALES (MP01, MP02):
+- Comprobar conducción aire entre filtro y turbo | MP01AA0E0T/CE | MP02AA0E0T/CE
+- Residuos de aceite, limpiar filtro y sustituir malla interna | MP01SL0F/CM | MP02SL0F/CM
+
+MOTORES AUXILIARES (MA01, MA02):
+- Operar motor velocidad nominal 50-70% carga mínimo 30 minutos | MA01EG0G/VM | MA02EG0G/VM
+- Comprobar nivel de aceite | MA01SL0A/CN | MA02SL0A/CN
+- Comprobar nivel refrigerante del motor | MA01SR0A/CN | MA02SR0A/CN
+
+GENERADOR DE PUERTO (MG01):
+- Apriete racores de combustible | MG01SC0RA/AM
+- Cambio aceite del motor | MG01SC0A/CM
+- Cambio filtro de aceite | MG01SL0F/CM
+- Cambio filtro combustible | MG01SC0F/CM
+- Comprobar inyectores | MG01SC0I/CE
+- Comprobar reglaje de válvulas | MG01SV0VA/CE
+- Cambio filtro de aire seco | MG01AA0F/CM
+
+REDUCTORAS (RE01, RE02):
+- Limpiar exteriormente reductora | RE01EG0G/LP | RE02EG0G/LP
+- Comprobar selector posición avante/atrás | RE01ST0SE/CPS | RE02ST0SE/CPS
+- Lubricar partes exteriores | RE01PE0G/EN | RE02PE0G/EN

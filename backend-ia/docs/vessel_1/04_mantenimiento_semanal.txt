@@ -1,0 +1,26 @@
+BUQUE: GUARDAMAR TALÍA | VESSEL_ID: 1
+FRECUENCIA: SEMANAL
+
+GENERADOR DE PUERTO (MG01):
+- Sustitución de aceite en el filtro de aire | MG01SR0A0F/CM
+- Control correa trapezoidal | MG01ST0CO/CM
+
+PLANTA AGUAS FECALES (PF01):
+- Girar válvula de descarga sedimentos al tanque | PF01SD0VA/AM
+
+POTABILIZADORA (PT01):
+- Revisión de pérdidas en la bomba de baja presión | PT01BB0G/CE
+
+SERVO TIMÓN (ST01):
+- Revisar unidades dirección | ST01EG0G/CE
+
+COMPRESOR (CM01):
+- Comprobar filtro de aspiración | CM01AA0F/CE
+- Engrase | CM01EG0G/EN
+
+COMPRESOR AIRE RESPIRABLE (CA01):
+- Controlar contador operación | CA01SCO0L/CE
+- Control de detección de fugas | CA01EG0G/CE
+
+AIRE ACONDICIONADO (AA01):
+- Detección de fugas | AA01EG0G/CE

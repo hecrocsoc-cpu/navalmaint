@@ -1,0 +1,54 @@
+BUQUE: GUARDAMAR TALÍA | VESSEL_ID: 1
+FRECUENCIA: ANUAL
+
+MOTORES PRINCIPALES (MP01, MP02):
+- Cambiar inyectores electrónicos | MP01SC0I/CM | MP02SC0I/CM
+- Comprobar cámaras cilindro | MP01EG0CC/CE | MP02EG0CC/CE
+
+MOTORES AUXILIARES (MA01, MA02):
+- Cambiar filtro caja cigüeñal | MA01ST0F/CM | MA02ST0F/CM
+- Limpiar ventilación caja cigüeñal | MA01EG0CI/LP | MA02EG0CI/LP
+- Comprobar sistema aire | MA01AA0G/CE | MA02AA0G/CE
+- Cambiar filtro combustible | MA01SC0F/CM | MA02SC0F/CM
+- Comprobar correa | MA01ST0CO/CE | MA02ST0CO/CE
+- Comprobar sistema de refrigeración | MA01SR0G/CE | MA02SR0G/CE
+- Análisis del refrigerante | MA01SR0RE/CE | MA02SR0RE/CE
+- Inspeccionar intercambiador de calor | MA01SR0IC/CE | MA02SR0IC/CE
+- Limpiar intercambiador de calor | MA01SR0IC/LP | MA02SR0IC/LP
+- Comprobar velocidad del motor | MA01SCO0G/CPS | MA02SCO0G/CPS
+- Comprobar puesta a tierra del motor | MA01SEL0PT/CE | MA02SEL0PT/CE
+
+GENERADOR DE PUERTO (MG01):
+- Revisión general del motor | MG01EG0G/CE
+
+REDUCTORAS (RE01, RE02):
+- Revisión general | RE01EG0G/CE | RE02EG0G/CE
+
+PLANTA AGUAS FECALES (PF01):
+- Revisar internamente bomba maceradora | PF01EG0B/CE
+- Comprobar equipo bombas vacío | PF01EG0G/CE
+
+POTABILIZADORA (PT01):
+- Comprobar retenes aceite bomba alta | PT01SL0U0B/CE
+
+DEPURADORA (DP01):
+- Comprobar disco centrípeto y tapa bastidor | DP01EG0G/CE
+- Limpiar rotor separadora | DP01ST0G/LP
+- Comprobar eje rotor | DP01ST0EJ/CE
+- Limpiar bomba combustible | DP01SC0B/LP
+- Revisar freno | DP01ST0FR/CE
+- Cambiar aceite | DP01SL0A/CM
+- Cambiar rodamientos motor eléctrico | DP01SEL0PM/CM
+
+SERVO TIMÓN (ST01):
+- Comprobar monitorización panel control remoto y alarmas | ST01SCO0G/CE
+
+COMPRESOR (CM01):
+- Cambiar aceite | CM01SL0A/CM
+- Cambiar filtro de aspiración | CM01AA0F/CM
+
+COMPRESOR AIRE RESPIRABLE (CA01):
+- Cambiar aceite | CA01SL0A/CM
+
+AIRE ACONDICIONADO (AA01):
+- Comprobar carga refrigerante | AA01SR0M/CN

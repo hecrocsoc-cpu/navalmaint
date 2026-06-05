@@ -1,0 +1,14 @@
+BUQUE: GUARDAMAR TALÍA | VESSEL_ID: 1
+FRECUENCIA: CADA DOS DÍAS y CADA CUATRO DÍAS
+
+CADA DOS DÍAS:
+
+GENERADOR DE PUERTO (MG01):
+- Sustitución aceite del motor | MG01SR0A/CM
+- Sustitución filtro de aceite | MG01SL0F/CM
+- Control de la correa trapezoidal | MG01ST0CO/CE
+
+CADA CUATRO DÍAS:
+
+GENERADOR DE PUERTO (MG01):
+- Comprobar filtro de la bomba de alimentación refrigerante | MG01SR0F0B/CE

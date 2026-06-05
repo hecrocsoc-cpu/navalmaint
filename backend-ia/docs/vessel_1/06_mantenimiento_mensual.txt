@@ -1,0 +1,43 @@
+BUQUE: GUARDAMAR TALÍA | VESSEL_ID: 1
+FRECUENCIA: MENSUAL
+
+MOTORES PRINCIPALES (MP01, MP02):
+- Comprobar holguras válvulas | MP01SV0VA/CE | MP02SV0VA/CE
+- Cambiar filtro combustible | MP01SC0F/CM | MP02SC0F/CM
+
+GENERADOR DE PUERTO (MG01):
+- Limpiar depósito combustible | MG01SC0D/LP
+- Sustituir correa del alternador | MG02ST0CO/CM
+
+PLANTA AGUAS FECALES (PF01):
+- Limpiar depósito | PF01SRE0D/LP
+- Limpiar boyas indicadoras de nivel | PF01SRE0L/LP
+- Revisar bomba de cloritos | PF01BB0G/LP
+- Comprobar escapes sistema de vacío | PF01SE0G/CE
+- Reajuste presostatos | PF01EG0P/CE
+
+POTABILIZADORA (PT01):
+- Limpieza filtros discos | PT01SRE0F/LP
+- Comprobar presostato de alta | PT01EG0PA/CE
+- Comprobar presostato de baja | PT01EG0PB/CE
+- Comprobar fugas en el circuito | PT01EG0G/CE
+
+DEPURADORA (DP01):
+- Revisar tensión correa | DP01ST0CO/CE
+- Cambiar aceite depósito | DP01SL0A/CE
+
+SERVO TIMÓN (ST01):
+- Limpieza general del equipo | ST01EG0G/LP
+
+COMPRESOR (CM01):
+- Comprobar uniones atornilladas | CM01EG0U/CE
+
+COMPRESOR AIRE RESPIRABLE (CA01):
+- Comprobar uniones eléctricas | CA01SEL0U/CE
+- Comprobar sentido giro | CA01ST0G/CPS
+- Sustitución filtro aspiración | CA01AA0F/CM
+- Engrase del sistema de alta presión | CA01SL0G/CM
+- Comprobar sistema de purga | CA01SD0G/CE
+
+AIRE ACONDICIONADO (AA01):
+- Limpieza general equipo | AA01EG0G/LP

@@ -1,0 +1,30 @@
+BUQUE: GUARDAMAR TALÍA | VESSEL_ID: 1
+FRECUENCIA: BIMESTRAL y TRIMESTRAL
+
+BIMESTRAL (cada dos meses):
+
+MOTORES PRINCIPALES (MP01, MP02):
+- Limpiar álabes del compresor | MP01AA0AL/LP | MP02AA0AL/LP
+
+GENERADOR DE PUERTO (MG01):
+- Comprobar escobillas motor arranque | MG01SA0ES/CE
+- Comprobar turbocompresor | MG01AA0T/CE
+
+REDUCTORAS (RE01, RE02):
+- Cambio de aceite | RE01SL0A/CM | RE02SL0A/CM
+- Limpiar filtro aceite | RE01SL0F/LP | RE02SL0F/LP
+
+POTABILIZADORA (PT01):
+- Flushing al sistema con detergente alcalino | PT01EG0G/LP
+
+TRIMESTRAL (cada tres meses):
+
+MOTORES PRINCIPALES (MP01, MP02):
+- Cambiar filtro aire | MP01AA0F/CM | MP02AA0F/CM
+
+POTABILIZADORA (PT01):
+- Cambio de aceite bomba alta | PT01SL0A0B/CM
+
+DEPURADORA (DP01):
+- Limpiar bastidor | DP01EG0G/LP
+- Limpiar rotor de la separadora | DP01ST0RO/LP

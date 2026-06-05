@@ -1,0 +1,48 @@
+BUQUE: GUARDAMAR TALÍA | VESSEL_ID: 1
+FRECUENCIA: BIANUAL (cada dos años)
+
+MOTORES PRINCIPALES (MP01, MP02):
+- Cambio filtro sistema purga | MP01SE0F/CM | MP02SE0F/CM
+- Overhaul turbo | MP01AA0G/OV | MP02AA0G/OV
+- Examinar balancines válvulas | MP01SV0B/CE | MP02SV0B/CE
+- Limpiar colector de aire | MP01AA0U/LP | MP02AA0U/LP
+- Limpiar intercooler | MP01SR0IN/LP | MP02SR0IN/LP
+- Comprobar estanqueidad | MP01EG0G/CE | MP02EG0G/CE
+- Cambiar sensor alta presión combustible | MP01SP0L/CM | MP02SP0L/CM
+- Comprobar motores de arranque | MP01SA0G/CE | MP02SA0G/CE
+- Comprobar soportes motor | MP01EG0SO/CE | MP02EG0SO/CE
+- Comprobar válvula corte aire | MP01AA0VA/CE | MP02AA0VA/CE
+- Comprobar estanqueidad elementos desmontados | MP01EG0G/CE | MP02EG0G/CE
+- Comprobar bombas de agua | MP01SR0B/CE | MP02SR0B/CE
+- Comprobar culatas | MP01EG0CT/CE | MP02EG0CT/CE
+- Comprobar cabezas pistón | MP01EG0PI/CE | MP02EG0PI/CE
+- Comprobar superficie deslizamiento camisas | MP01EG0PC/CE | MP02EG0PC/CE
+
+MOTORES AUXILIARES (MA01, MA02):
+- Comprobar presión sistema refrigeración | MA01SR0G/CP | MA02SR0G/CP
+- Comprobar bomba agua mar | MA01SR0B/CE | MA02SR0B/CE
+- Comprobar juego válvulas | MA01SV0VA/CE | MA02SV0VA/CE
+- Limpiar sistema enfriamiento | MA01SR0G/LP | MA02SR0G/LP
+- Prueba de los termostatos | MA01SET0TR/CT | MA02SET0TR/CT
+- Prueba de las bujías | MA01SEL0BJ/CE | MA02SEL0BJ/CE
+
+REDUCTORAS (RE01, RE02):
+- Revisión general | RE01EG0G/CE | RE02EG0G/CE
+
+PLANTA AGUAS FECALES (PF01):
+- Sustituir eje bombas vacío | PF01ST0EJ/CM
+- Cambio de cojinete bombas vacío | PF01ST0CJ/CM
+
+REVISIÓN MTU A LOS 18 AÑOS:
+- Despiezar motor completo
+- Sustituir todas las juntas
+- Sustituir segmentos del pistón
+- Sustituir cojinetes de biela
+- Sustituir cojinetes de cigüeñal
+- Sustituir camisas del cilindro
+- Sustituir rodamientos toma fuerza secundaria
+- Sustituir bomba alta presión combustible
+- Sustituir cilindro accionamiento chapaletas aire y escape
+- Sustituir válvula sobrepresión sistema alta presión combustible
+- Revisión del alternador
+- Sustituir palas turbocompresor de escape

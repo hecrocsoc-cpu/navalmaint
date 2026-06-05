@@ -1,0 +1,60 @@
+BUQUE: GUARDAMAR TALÍA | VESSEL_ID: 1
+FRECUENCIA: DIARIA
+
+MOTORES PRINCIPALES (MP01, MP02):
+- Comprobar nivel de aceite | MP01SL0M/CN | MP02SL0M/CN
+- Comprobar estanqueidad y estado general visual | MP01EG0G/CE | MP02EG0G/CE
+- Controlar sistema refrigeración aire de carga | MP01AA0G/CE | MP02AA0G/CE
+- Controlar indicador mantenimiento filtro de aire | MP01AA0L/CE | MP02AA0L/CE
+- Comprobar taladros bomba alta presión combustible | MP01SC0B/CE | MP02SC0B/CE
+- Comprobar taladros descarga bombas de agua | MP01DA0B/CE | MP02DA0B/CE
+- Revisar ruidos, color gases y vibraciones anormales | MP01SE0G/CE | MP02SE0G/CE
+- Purga del pre filtro combustible | MP01SC0F/PR | MP02SC0F/PR
+- Comprobar presión pre filtro combustible | MP01SC0F/CP | MP02SC0F/CP
+
+GENERADOR DE PUERTO (MG01):
+- Comprobar nivel aceite motor | MG01SL0M/CN
+- Control aceite filtro de aire | MG01AA0F/CNR
+- Limpieza filtro aire de aceite | MG01SL0F/LP
+- Limpieza filtro aire seco | MG01AA0F/LP
+- Control radiador del aceite | MG01SL0R/CE
+- Limpieza del ventilador | MG01SR0V/LP
+
+REDUCTORAS (RE01, RE02):
+- Comprobar nivel de aceite | RE01SL0M/CN
+- Girar manualmente el filtro de aceite | RE01SL0F/AM
+- Chequeo visual partes móviles | RE01EG0G/CE
+
+PLANTA AGUAS FECALES (PF01):
+- Limpiar entradas de aire bombas vacío | PF01AA0E/LP
+- Comprobar presión en funcionamiento | PF01EG0G/CP
+
+POTABILIZADORA (PT01):
+- Comprobar si baja la presión | PT01EG0L/CP
+
+DEPURADORA (DP01):
+- Comprobar fugas entrada | DP01DA0E/CE
+- Comprobar fugas salida | DP01DA0S/CE
+- Comprobar vibraciones y ruidos en rotor separadora | DP01PM0G/CNR
+- Comprobar vibraciones y ruidos en correa transmisión | DP01ST0CO/CNR
+- Comprobar nivel de aceite | DP01SL0M/CN
+- Control estado general motor eléctrico | DP01EG0G/CE
+
+SERVO TIMÓN (ST01):
+- Revisión conexiones circuitos hidráulicos | ST01SH0C/CE
+- Comprobar niveles de aceite | ST01SL0M/CN
+
+COMPRESOR (CM01):
+- Comprobar nivel de aceite | CM01SL0M/CN
+
+COMPRESOR AIRE RESPIRABLE (CA01):
+- Comprobar nivel de aceite | CA01SL0M/CN
+- Comprobar presiones | CA01EG0M/CP
+- Revisar manómetros | CA01SP0M/CE
+
+AIRE ACONDICIONADO (AA01):
+- Comprobar temperaturas | AA01STE0M/CT
+- Comprobar presiones | AA01SP0M/CP
+
+OBSERVACIÓN IMPORTANTE:
+Anotar manualmente todas las temperaturas de gases de escape de cada cilindro de todos los motores de combustión interna.
