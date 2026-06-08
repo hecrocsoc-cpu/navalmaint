@@ -1,0 +1,117 @@
+{
+  "name": "My workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "incidencia-navalmaint",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "03f20984-43be-46a3-90bd-412157f6b437",
+      "name": "Webhook",
+      "webhookId": "e8cde4d0-405d-4922-a034-3b061cff6405"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "f5c7e7ae-3a5f-43ea-93ca-5c7550ae3936",
+              "leftValue": "={{ $json.body.estado }}",
+              "rightValue": "INCIDENCIA",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        208,
+        0
+      ],
+      "id": "8db0d32e-0011-4067-af68-9eb6a90e5b94",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "fromEmail": "hecrocsoc@gmail.com",
+        "toEmail": "hecrocsoc@gmail.com",
+        "subject": "=⚠️ Incidencia NavalMaint - {{ $json.body.taskCodigo }}",
+        "html": "=<h2>Incidencia registrada</h2>\n<p><strong>Tarea:</strong> {{ $json.body.taskDescripcion }}</p>\n<p><strong>Código:</strong> {{ $json.body.taskCodigo }}</p>\n<p><strong>Registrada por:</strong> {{ $json.body.usuarioNombre }}</p>\n<p><strong>Observaciones:</strong> {{ $json.body.observaciones }}</p>\n<p><strong>Fecha:</strong> {{ $json.body.fecha }}</p>",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [
+        416,
+        -96
+      ],
+      "id": "9783b434-6039-4a02-a406-d1153c73d90e",
+      "name": "Send an Email",
+      "webhookId": "79c00705-1323-497c-b046-646e7ea3b1b6",
+      "credentials": {
+        "smtp": {
+          "id": "vRTsV0rbINUAG1Cs",
+          "name": "SMTP account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Send an Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "e5712cb2-66e1-4551-9e91-acfc57f34f38",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "d810f0940a125e4a5827f0db377190cf422261f3b209618da92a39c787bdd3f4"
+  },
+  "nodeGroups": [],
+  "id": "hHYOXuX2Y1ggs6Up",
+  "tags": []
+}

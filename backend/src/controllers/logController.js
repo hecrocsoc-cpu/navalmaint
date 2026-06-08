@@ -27,6 +27,25 @@ const sendIncidenciaEmail = async (task, usuario, observaciones) => {
   });
 };
 
+const notificarN8N = async (log) => {
+  const webhookUrl = process.env.N8N_WEBHOOK_URL;
+  if (!webhookUrl) return;
+
+  await fetch(webhookUrl, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      estado: log.estado,
+      taskCodigo: log.task.codigo,
+      taskDescripcion: log.task.descripcion,
+      usuarioNombre: log.user.nombre,
+      usuarioEmail: log.user.email,
+      observaciones: log.observaciones,
+      fecha: new Date().toLocaleString("es-ES"),
+    }),
+  });
+};
+
 const getLogs = async (req, res, next) => {
   try {
     const { taskId, userId, estado } = req.query;
@@ -89,6 +108,12 @@ const createLog = async (req, res, next) => {
         await sendIncidenciaEmail(log.task, log.user, observaciones);
       } catch (emailErr) {
         console.error("Error enviando email:", emailErr);
+      }
+
+      try {
+        await notificarN8N(log);
+      } catch (n8nErr) {
+        console.error("Error notificando N8N:", n8nErr);
       }
     }
 
