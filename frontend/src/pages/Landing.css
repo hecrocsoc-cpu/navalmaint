@@ -541,6 +541,13 @@
 
 /* RESPONSIVE */
 @media (max-width: 768px) {
+  .landing-comparison {
+    overflow-x: auto;
+  }
+
+  .comparison-table {
+    min-width: 500px;
+  }
   .landing-nav {
     padding: 1rem 1.5rem;
   }
