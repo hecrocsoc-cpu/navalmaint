@@ -12,6 +12,7 @@ import NewVessel from "./pages/NewVessel";
 import Vessels from "./pages/Vessels";
 import Users from "./pages/Users";
 import Chat from "./pages/Chat";
+import Landing from "./pages/Landing";
 
 const RutaProtegida = ({ children }) => {
   const { usuario, cargando } = useAuth();
@@ -26,7 +27,7 @@ const RutaProtegida = ({ children }) => {
 };
 
 function App() {
-  return (
+return (
     <Routes>
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
@@ -39,7 +40,8 @@ function App() {
       <Route path="/vessels" element={<RutaProtegida><Vessels /></RutaProtegida>} />
       <Route path="/users" element={<RutaProtegida><Users /></RutaProtegida>} />
       <Route path="/chat" element={<RutaProtegida><Chat /></RutaProtegida>} />
-      <Route path="*" element={<Navigate to="/login" />} />
+      <Route path="/" element={<Landing />} />
+      <Route path="*" element={<Navigate to="/" />} />
     </Routes>
   );
 }

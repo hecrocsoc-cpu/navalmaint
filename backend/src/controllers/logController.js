@@ -85,6 +85,7 @@ const getLogById = async (req, res, next) => {
 
 const createLog = async (req, res, next) => {
   try {
+    console.log("N8N_WEBHOOK_URL:", process.env.N8N_WEBHOOK_URL);
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({ error: errors.array()[0].msg });
