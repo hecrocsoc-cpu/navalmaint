@@ -253,7 +253,6 @@ export default function Landing() {
       <footer className="landing-footer">
         <span>NavalMaint © 2025</span>
         <span>Proyecto final bootcamp full stack</span>
-        <span>Guardamar Talía · Salvamento Marítimo</span>
       </footer>
     </div>
   );
