@@ -112,9 +112,11 @@ Health:    GET /api/health
 ---
 
 ## API REST — Módulo IA (FastAPI)
-Chat:      POST /api/chat          ← respuesta completa
-           POST /api/chat/stream   ← streaming SSE
+Chat:      POST /api/chat                        ← respuesta completa
+           POST /api/chat/stream                 ← streaming SSE
+           GET  /api/chat/history/{session_id}   ← historial de sesión
 Health:    GET  /api/health
+Swagger:   GET  /docs                            ← documentación automática
 
 El módulo IA verifica el mismo JWT que Express (secret compartido) y filtra los documentos por `vessel_id`, de forma que cada usuario solo consulta el plan de su buque.
 
@@ -171,6 +173,16 @@ El reto era: ¿cómo verifica el backend de IA que el usuario está autenticado,
 - El módulo IA **verifica** el token con el mismo secret.
 
 Como los dos comparten la llave, el módulo IA reconoce los tokens de Express sin necesidad de consultar la base de datos ni hacer un segundo login. Si los secrets no coinciden, el módulo IA devuelve un **401 Unauthorized** y el chat no funciona — fue justo el error que hubo que depurar al desplegar: el secret en producción no era idéntico en ambos servicios.
+
+---
+
+
+## Documentación
+
+- **Documentación técnica:** `documentacion/documentation.html` — abre en el navegador
+- **Colección Postman:** `documentacion/navalmaint_postman_collection.json` — importar en Postman
+- **Swagger FastAPI:** https://navalmaint-ia-production.up.railway.app/docs
+- **Uso de IA:** `documentacion/uso_ia.md`
 
 ---
 

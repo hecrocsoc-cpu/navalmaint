@@ -145,6 +145,7 @@
   <a href="#endpoints">04 Endpoints</a>
   <a href="#reglas">05 Reglas de negocio</a>
   <a href="#postman">06 Colección Postman</a>
+  <a href="#ia">07 Módulo IA</a>
 </nav>
 
 <main>
@@ -600,6 +601,126 @@ estado=OK   (OK | INCIDENCIA | PENDIENTE)</pre>
     <div class="ebody"><h4>Body</h4><pre>{ "role": "MECANICO" }</pre></div>
   </div>
 
+</section>
+
+<!-- 07 -->
+<section id="ia">
+  <div class="sh"><span class="sn">07</span><h2>Módulo IA — NavalMaint AI Agent</h2></div>
+  <div class="hero">
+    <div class="hs"><label>Framework</label><value>FastAPI + LangGraph</value></div>
+    <div class="hs"><label>Modelo LLM</label><value>Groq · LLaMA 3.3-70b-versatile</value></div>
+    <div class="hs"><label>RAG</label><value>ChromaDB · 10 documentos indexados</value></div>
+    <div class="hs"><label>Embeddings</label><value>all-MiniLM-L6-v2</value></div>
+    <div class="hs"><label>Memoria</label><value>MemorySaver · por session_id</value></div>
+    <div class="hs"><label>Auth</label><value>JWT compartido con Express</value></div>
+    <div class="hs"><label>Despliegue</label><value>Railway · segundo servicio</value></div>
+    <div class="hs"><label>Swagger</label><value>/docs (automático FastAPI)</value></div>
+  </div>
+
+  <p style="color:var(--text2);max-width:740px;line-height:1.8;margin-bottom:2rem;">
+    El módulo IA es un agente LangGraph con RAG sobre el plan de mantenimiento real del Guardamar Talía.
+    Los documentos están divididos por frecuencia de mantenimiento (diaria, semanal, mensual…) e indexados en ChromaDB
+    con filtro por <code>vessel_id</code>, lo que permite escalar a múltiples embarcaciones sin mezclar datos.
+    El agente dispone de 3 tools que ejecuta automáticamente según el contexto de la pregunta.
+  </p>
+
+  <div class="gt">Endpoints IA</div>
+  <div class="tw" style="margin-bottom:2rem;">
+    <table>
+      <thead>
+        <tr>
+          <th style="width:75px">Método</th>
+          <th>Ruta</th>
+          <th>Descripción</th>
+          <th style="width:120px">Acceso</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td><span class="m get">GET</span></td><td><code>/api/health</code></td><td>Estado del servicio IA</td><td><span class="rb rp">público</span></td></tr>
+        <tr><td><span class="m post">POST</span></td><td><code>/api/chat</code></td><td>Consulta al agente — respuesta completa</td><td><span class="rb rl">JWT</span></td></tr>
+        <tr><td><span class="m post">POST</span></td><td><code>/api/chat/stream</code></td><td>Consulta al agente — streaming SSE</td><td><span class="rb rl">JWT</span></td></tr>
+        <tr><td><span class="m get">GET</span></td><td><code>/api/chat/history/{session_id}</code></td><td>Historial de mensajes de una sesión</td><td><span class="rb rl">JWT</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="gt">Body de la petición — POST /api/chat y /api/chat/stream</div>
+  <pre style="margin-bottom:2rem;">{
+  "message":    "¿Qué mantenimiento diario hay que hacer en los motores principales?",
+  "session_id": "uuid-generado-en-frontend",
+  "vessel_id":  1
+}</pre>
+
+  <div class="gt">Respuesta — POST /api/chat</div>
+  <pre style="margin-bottom:2rem;">{
+  "response":   "Según la Fuente 1: 02_mantenimiento_diario.txt, el mantenimiento diario...",
+  "session_id": "uuid-generado-en-frontend"
+}</pre>
+
+  <div class="gt">Respuesta — GET /api/chat/history/{session_id}</div>
+  <pre style="margin-bottom:2rem;">{
+  "session_id": "uuid-generado-en-frontend",
+  "messages": [
+    { "role": "user", "content": "¿Qué mantenimiento diario...?" },
+    { "role": "ai",   "content": "Según la Fuente 1: 02_mantenimiento_diario.txt..." }
+  ]
+}</pre>
+
+  <div class="gt">Tools del agente</div>
+  <div class="rg">
+    <div class="rg-grid">
+      <div class="rule">
+        <span class="rc">buscar_mantenimiento</span>
+        <span class="rt">Busca información en el plan de mantenimiento del barco usando RAG sobre ChromaDB. Se ejecuta en cada petición con la consulta del usuario como query. Devuelve los fragmentos más relevantes con cita de la fuente (nombre del archivo).</span>
+      </div>
+      <div class="rule">
+        <span class="rc">obtener_fecha_actual</span>
+        <span class="rt">Devuelve la fecha y hora actual del servidor. Se ejecuta en cada petición para que el agente pueda razonar sobre plazos, fechas de vencimiento y tareas vencidas sin depender de información del cliente.</span>
+      </div>
+      <div class="rule">
+        <span class="rc">calcular_proxima_revision</span>
+        <span class="rt">Calcula la próxima fecha de revisión dado el último mantenimiento y la frecuencia. Se activa automáticamente cuando el usuario menciona una fecha en formato DD/MM/YYYY y una frecuencia de mantenimiento en el mismo mensaje. Devuelve la fecha exacta y el estado (vencida / urgente / pendiente).</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="gt">Flujo de una petición</div>
+  <pre>Usuario envía { message, session_id, vessel_id }
+        ↓
+FastAPI verifica JWT (mismo secret que Express)
+        ↓
+LangGraph — nodo_llm
+        ↓
+Tool 1: buscar_mantenimiento  →  RAG ChromaDB filtrado por vessel_id
+Tool 2: obtener_fecha_actual  →  fecha actual del servidor
+Tool 3: calcular_proxima_revision (si hay fecha en el mensaje)
+        ↓
+Contexto + herramientas → Groq LLaMA 3.3-70b-versatile
+        ↓
+MemorySaver mantiene historial por session_id
+        ↓
+Respuesta con citas de fuente (Fuente: nombre_archivo.txt)</pre>
+
+  <div class="gt">Documentos RAG indexados — Guardamar Talía (vessel_id: 1)</div>
+  <div class="tw">
+    <table>
+      <thead>
+        <tr><th>Archivo</th><th>Contenido</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><code>01_info_general.txt</code></td><td>Ficha técnica del buque, sistemas y equipos</td></tr>
+        <tr><td><code>02_mantenimiento_diario.txt</code></td><td>Tareas de frecuencia DIARIA</td></tr>
+        <tr><td><code>03_mantenimiento_2dias_4dias.txt</code></td><td>Tareas cada 2 y 4 días</td></tr>
+        <tr><td><code>04_mantenimiento_semanal.txt</code></td><td>Tareas de frecuencia SEMANAL</td></tr>
+        <tr><td><code>05_mantenimiento_quincenal.txt</code></td><td>Tareas de frecuencia QUINCENAL</td></tr>
+        <tr><td><code>06_mantenimiento_mensual.txt</code></td><td>Tareas de frecuencia MENSUAL</td></tr>
+        <tr><td><code>07_mantenimiento_bimestral_trimestral.txt</code></td><td>Tareas cada 2 y 3 meses</td></tr>
+        <tr><td><code>08_mantenimiento_semestral.txt</code></td><td>Tareas de frecuencia SEMESTRAL</td></tr>
+        <tr><td><code>09_mantenimiento_anual.txt</code></td><td>Tareas de frecuencia ANUAL</td></tr>
+        <tr><td><code>10_mantenimiento_bianual.txt</code></td><td>Tareas de frecuencia BIANUAL</td></tr>
+      </tbody>
+    </table>
+  </div>
 </section>
 
 </main>
