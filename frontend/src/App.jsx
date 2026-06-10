@@ -1,5 +1,6 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 import { useAuth } from "./context/AuthContext";
+import { ThemeProvider } from "./context/ThemeContext";
 import Navbar from "./components/Navbar";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
@@ -27,22 +28,24 @@ const RutaProtegida = ({ children }) => {
 };
 
 function App() {
-return (
-    <Routes>
-      <Route path="/login" element={<Login />} />
-      <Route path="/register" element={<Register />} />
-      <Route path="/dashboard" element={<RutaProtegida><Dashboard /></RutaProtegida>} />
-      <Route path="/equipment" element={<RutaProtegida><Equipment /></RutaProtegida>} />
-      <Route path="/stock" element={<RutaProtegida><Stock /></RutaProtegida>} />
-      <Route path="/maintenance" element={<RutaProtegida><Maintenance /></RutaProtegida>} />
-      <Route path="/history" element={<RutaProtegida><History /></RutaProtegida>} />
-      <Route path="/vessels/new" element={<RutaProtegida><NewVessel /></RutaProtegida>} />
-      <Route path="/vessels" element={<RutaProtegida><Vessels /></RutaProtegida>} />
-      <Route path="/users" element={<RutaProtegida><Users /></RutaProtegida>} />
-      <Route path="/chat" element={<RutaProtegida><Chat /></RutaProtegida>} />
-      <Route path="/" element={<Landing />} />
-      <Route path="*" element={<Navigate to="/" />} />
-    </Routes>
+  return (
+    <ThemeProvider>
+      <Routes>
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/dashboard" element={<RutaProtegida><Dashboard /></RutaProtegida>} />
+        <Route path="/equipment" element={<RutaProtegida><Equipment /></RutaProtegida>} />
+        <Route path="/stock" element={<RutaProtegida><Stock /></RutaProtegida>} />
+        <Route path="/maintenance" element={<RutaProtegida><Maintenance /></RutaProtegida>} />
+        <Route path="/history" element={<RutaProtegida><History /></RutaProtegida>} />
+        <Route path="/vessels/new" element={<RutaProtegida><NewVessel /></RutaProtegida>} />
+        <Route path="/vessels" element={<RutaProtegida><Vessels /></RutaProtegida>} />
+        <Route path="/users" element={<RutaProtegida><Users /></RutaProtegida>} />
+        <Route path="/chat" element={<RutaProtegida><Chat /></RutaProtegida>} />
+        <Route path="/" element={<Landing />} />
+        <Route path="*" element={<Navigate to="/" />} />
+      </Routes>
+    </ThemeProvider>
   );
 }
 

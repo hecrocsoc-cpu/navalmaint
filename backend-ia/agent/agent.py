@@ -3,12 +3,14 @@ from langchain_community.vectorstores import Chroma
 from langchain_community.embeddings import SentenceTransformerEmbeddings
 from langchain_community.document_loaders import TextLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
-from langchain_core.messages import HumanMessage, SystemMessage, BaseMessage
+from langchain_core.messages import HumanMessage, SystemMessage, BaseMessage, AIMessage
+from langchain_core.tools import tool
 from langgraph.graph import StateGraph, END
 from langgraph.checkpoint.memory import MemorySaver
 from typing import TypedDict, Annotated, Sequence
 import operator
 import os
+from datetime import datetime
 from pathlib import Path
 
 class EstadoAgente(TypedDict):
@@ -35,7 +37,6 @@ def get_or_create_retriever(vessel_id: int):
     if not docs_path.exists():
         return None
 
-    # Si ya existe el ChromaDB cargarlo, si no crearlo
     chroma_dir = Path(chroma_path)
     if chroma_dir.exists() and any(chroma_dir.iterdir()):
         vectorstore = Chroma(
@@ -73,33 +74,92 @@ def get_or_create_retriever(vessel_id: int):
     retriever = vectorstore.as_retriever(search_kwargs={"k": 10})
     _retrievers[vessel_id] = retriever
     return retriever
+
+
+# ============================================================
+# TOOLS
+# ============================================================
+
+@tool
+def buscar_mantenimiento(consulta: str, vessel_id: int = 1) -> str:
+    """Busca información en el plan de mantenimiento del barco.
+    Úsala cuando el usuario pregunte sobre tareas, frecuencias,
+    equipos, sistemas o procedimientos de mantenimiento."""
+    retriever = get_or_create_retriever(vessel_id)
+    if retriever is None:
+        return "No hay documentos de mantenimiento indexados para este barco."
+    docs = retriever.invoke(consulta)
+    if not docs:
+        return "No encontré información relevante en el plan de mantenimiento."
+    resultado = ""
+    for i, doc in enumerate(docs, 1):
+        fuente = Path(doc.metadata.get("source", "")).name
+        resultado += f"\n[Fuente {i}: {fuente}]\n{doc.page_content}\n"
+    return resultado
+
+
+@tool
+def obtener_fecha_actual() -> str:
+    """Devuelve la fecha y hora actual.
+    Úsala cuando el usuario pregunte por fechas, plazos,
+    o necesite saber cuándo vence una tarea de mantenimiento."""
+    ahora = datetime.now()
+    return (
+        f"Fecha actual: {ahora.strftime('%A, %d de %B de %Y')}\n"
+        f"Hora: {ahora.strftime('%H:%M')}\n"
+        f"Día del año: {ahora.timetuple().tm_yday}"
+    )
+
+
+# ============================================================
+# NODO LLM CON TOOLS
+# ============================================================
+
+tools = [buscar_mantenimiento, obtener_fecha_actual]
+llm_con_tools = llm.bind_tools(tools)
+
 def nodo_llm(estado: EstadoAgente) -> dict:
     vessel_id = estado.get("vessel_id", 1)
-    retriever = get_or_create_retriever(vessel_id)
 
     ultimo_mensaje = next(
         (m.content for m in reversed(estado["messages"]) if isinstance(m, HumanMessage)),
         ""
     )
 
-    if retriever is None:
-        contexto = "No hay documentos de mantenimiento indexados para este barco."
-    else:
+    # Ejecutar tool de búsqueda automáticamente para dar contexto
+    retriever = get_or_create_retriever(vessel_id)
+    if retriever:
         docs = retriever.invoke(ultimo_mensaje)
-        contexto = "\n\n".join(d.page_content for d in docs)
+        contexto = ""
+        for i, doc in enumerate(docs, 1):
+            fuente = Path(doc.metadata.get("source", "")).name
+            contexto += f"\n[Fuente {i}: {fuente}]\n{doc.page_content}\n"
+    else:
+        contexto = "No hay documentos de mantenimiento indexados para este barco."
+
+    fecha_actual = datetime.now().strftime("%A, %d de %B de %Y")
 
     system = SystemMessage(content=f"""Eres NavalMaint AI, un asistente experto en mantenimiento naval.
 Tienes acceso al plan de mantenimiento de esta embarcación.
-IMPORTANTE: Responde ÚNICAMENTE basándote en el contexto proporcionado.
-Si el contexto contiene la información, úsala directamente y cita los datos concretos.
-Si no encuentras la información en el contexto, di exactamente: "No encuentro esa información en el plan de mantenimiento."
-No inventes datos. Responde en español de forma técnica y precisa.
+Fecha de hoy: {fecha_actual}
+
+IMPORTANTE:
+- Responde ÚNICAMENTE basándote en el contexto proporcionado.
+- Cuando uses información de una fuente, cítala indicando: (Fuente: nombre_archivo).
+- Si el contexto contiene la información, úsala directamente y cita los datos concretos.
+- Si no encuentras la información en el contexto, di exactamente: "No encuentro esa información en el plan de mantenimiento."
+- No inventes datos. Responde en español de forma técnica y precisa.
 
 CONTEXTO DEL PLAN DE MANTENIMIENTO:
 {contexto}""")
 
-    respuesta = llm.invoke([system] + list(estado["messages"]))
+    respuesta = llm_con_tools.invoke([system] + list(estado["messages"]))
     return {"messages": [respuesta]}
+
+
+# ============================================================
+# GRAFO
+# ============================================================
 
 grafo = StateGraph(EstadoAgente)
 grafo.add_node("llm", nodo_llm)
@@ -108,3 +168,26 @@ grafo.add_edge("llm", END)
 
 checkpointer = MemorySaver()
 agente = grafo.compile(checkpointer=checkpointer)
+
+
+# ============================================================
+# HISTORIAL — función para recuperar mensajes de una sesión
+# ============================================================
+
+def get_historial(session_id: str) -> list:
+    """Recupera el historial de mensajes de una sesión."""
+    try:
+        config = {"configurable": {"thread_id": session_id}}
+        state = agente.get_state(config)
+        if not state or not state.values:
+            return []
+        mensajes = state.values.get("messages", [])
+        historial = []
+        for m in mensajes:
+            if isinstance(m, HumanMessage):
+                historial.append({"role": "user", "content": m.content})
+            elif isinstance(m, AIMessage):
+                historial.append({"role": "ai", "content": m.content})
+        return historial
+    except Exception:
+        return []

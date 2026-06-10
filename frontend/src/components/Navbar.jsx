@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import { useTema } from "../context/ThemeContext";
 
 export default function Navbar() {
   const { usuario, logout } = useAuth();
+  const { temaClaro, toggleTema } = useTema();
   const navigate = useNavigate();
   const location = useLocation();
   const [menuAbierto, setMenuAbierto] = useState(false);
@@ -42,6 +44,13 @@ export default function Navbar() {
       <div className="navbar-user">
         <span>{usuario?.nombre}</span>
         <span className="badge">{usuario?.role}</span>
+        <button
+          onClick={toggleTema}
+          title={temaClaro ? "Cambiar a oscuro" : "Cambiar a claro"}
+          style={{ fontSize: "1rem" }}
+        >
+          {temaClaro ? "☾ Oscuro" : "☀ Claro"}
+        </button>
         <button onClick={handleLogout}>Salir</button>
       </div>
 

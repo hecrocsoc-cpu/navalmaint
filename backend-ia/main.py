@@ -38,7 +38,7 @@ class ChatInput(BaseModel):
     session_id: str
     vessel_id: int
 
-from agent.agent import agente
+from agent.agent import agente, get_historial
 
 @app.get("/api/health")
 def health():
@@ -75,3 +75,8 @@ async def chat_stream(body: ChatInput, user=Depends(get_current_user)):
         media_type="text/event-stream",
         headers={"Cache-Control": "no-cache", "X-Accel-Buffering": "no"},
     )
+
+@app.get("/api/chat/history/{session_id}")
+async def chat_history(session_id: str, user=Depends(get_current_user)):
+    historial = get_historial(session_id)
+    return {"session_id": session_id, "messages": historial}
