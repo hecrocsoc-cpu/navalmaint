@@ -229,6 +229,9 @@ button[type="submit"]:disabled {
 .navbar-links {
   display: flex;
   gap: 1.5rem;
+  flex: 1;
+  justify-content: center;
+  flex-wrap: wrap;
 }
 
 .navbar-links a {
