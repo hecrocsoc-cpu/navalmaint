@@ -174,6 +174,15 @@ El reto era: ¿cómo verifica el backend de IA que el usuario está autenticado,
 
 Como los dos comparten la llave, el módulo IA reconoce los tokens de Express sin necesidad de consultar la base de datos ni hacer un segundo login. Si los secrets no coinciden, el módulo IA devuelve un **401 Unauthorized** y el chat no funciona — fue justo el error que hubo que depurar al desplegar: el secret en producción no era idéntico en ambos servicios.
 
+## Automatización con N8N
+
+Cuando se registra un log de mantenimiento con estado **INCIDENCIA**, el backend de Express dispara un webhook hacia un workflow de N8N. Allí, un **nodo IF** comprueba el estado:
+
+- Si el estado es `INCIDENCIA` → envía un email de alerta al administrador.
+- Si no → no hace nada.
+
+Esto permite que un responsable se entere al instante de un fallo registrado por un mecánico, sin tener que estar revisando la app. El workflow está exportado en `n8n-workflows/incidencia-alert.json`.
+
 ---
 
 
