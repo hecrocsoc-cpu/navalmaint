@@ -94,7 +94,7 @@ def buscar_mantenimiento(consulta: str, vessel_id: int = 1) -> str:
         return "No encontré información relevante en el plan de mantenimiento."
     resultado = ""
     for i, doc in enumerate(docs, 1):
-        fuente = Path(doc.metadata.get("source", "")).name
+        fuente = Path(doc.metadata.get("source", "").replace("\\", "/")).name
         resultado += f"\n[Fuente {i}: {fuente}]\n{doc.page_content}\n"
     return resultado
 
