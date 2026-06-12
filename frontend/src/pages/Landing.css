@@ -539,6 +539,22 @@
   font-weight: 700;
 }
 
+/* SCROLL HINT */
+.scroll-hint {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  opacity: 0.25;
+  animation: bounce 1.5s infinite;
+  z-index: 200;
+  pointer-events: none;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(8px); }
+}
+
 /* RESPONSIVE */
 @media (max-width: 768px) {
   .landing-nav {

@@ -83,87 +83,45 @@ export default function Landing() {
               <tbody>
                 <tr>
                   <td>Gestión de equipos</td>
-                  <td>
-                    <span className="check">✓</span>
-                  </td>
-                  <td className="col-featured">
-                    <span className="check">✓</span>
-                  </td>
-                  <td>
-                    <span className="cross">✗</span>
-                  </td>
+                  <td><span className="check">✓</span></td>
+                  <td className="col-featured"><span className="check">✓</span></td>
+                  <td><span className="cross">✗</span></td>
                 </tr>
                 <tr>
                   <td>Plan de mantenimiento</td>
-                  <td>
-                    <span className="check">✓</span>
-                  </td>
-                  <td className="col-featured">
-                    <span className="check">✓</span>
-                  </td>
-                  <td>
-                    <span className="cross">✗</span>
-                  </td>
+                  <td><span className="check">✓</span></td>
+                  <td className="col-featured"><span className="check">✓</span></td>
+                  <td><span className="cross">✗</span></td>
                 </tr>
                 <tr>
                   <td>Control de stock</td>
-                  <td>
-                    <span className="check">✓</span>
-                  </td>
-                  <td className="col-featured">
-                    <span className="check">✓</span>
-                  </td>
-                  <td>
-                    <span className="cross">✗</span>
-                  </td>
+                  <td><span className="check">✓</span></td>
+                  <td className="col-featured"><span className="check">✓</span></td>
+                  <td><span className="cross">✗</span></td>
                 </tr>
                 <tr>
                   <td>Asistente IA</td>
-                  <td>
-                    <span className="cross">✗</span>
-                  </td>
-                  <td className="col-featured">
-                    <span className="check">✓</span>
-                  </td>
-                  <td>
-                    <span className="cross">✗</span>
-                  </td>
+                  <td><span className="cross">✗</span></td>
+                  <td className="col-featured"><span className="check">✓</span></td>
+                  <td><span className="cross">✗</span></td>
                 </tr>
                 <tr>
                   <td>Alertas incidencias</td>
-                  <td>
-                    <span className="check">✓</span>
-                  </td>
-                  <td className="col-featured">
-                    <span className="check">✓</span>
-                  </td>
-                  <td>
-                    <span className="cross">✗</span>
-                  </td>
+                  <td><span className="check">✓</span></td>
+                  <td className="col-featured"><span className="check">✓</span></td>
+                  <td><span className="cross">✗</span></td>
                 </tr>
                 <tr>
                   <td>Precio accesible</td>
-                  <td>
-                    <span className="cross">✗</span>
-                  </td>
-                  <td className="col-featured">
-                    <span className="check">✓</span>
-                  </td>
-                  <td>
-                    <span className="check">✓</span>
-                  </td>
+                  <td><span className="cross">✗</span></td>
+                  <td className="col-featured"><span className="check">✓</span></td>
+                  <td><span className="check">✓</span></td>
                 </tr>
                 <tr>
                   <td>Uso profesional</td>
-                  <td>
-                    <span className="check">✓</span>
-                  </td>
-                  <td className="col-featured">
-                    <span className="check">✓</span>
-                  </td>
-                  <td>
-                    <span className="cross">✗</span>
-                  </td>
+                  <td><span className="check">✓</span></td>
+                  <td className="col-featured"><span className="check">✓</span></td>
+                  <td><span className="cross">✗</span></td>
                 </tr>
               </tbody>
             </table>
@@ -186,45 +144,27 @@ export default function Landing() {
           <div className="landing-features">
             <div className="landing-feature">
               <h4>Gestión de equipos</h4>
-              <p>
-                Registro de sistemas y equipos con códigos técnicos y
-                especificaciones reales.
-              </p>
+              <p>Registro de sistemas y equipos con códigos técnicos y especificaciones reales.</p>
             </div>
             <div className="landing-feature">
               <h4>Plan de mantenimiento</h4>
-              <p>
-                Tareas por frecuencia — desde diaria hasta bianual. Pendientes
-                en tiempo real.
-              </p>
+              <p>Tareas por frecuencia — desde diaria hasta bianual. Pendientes en tiempo real.</p>
             </div>
             <div className="landing-feature">
               <h4>Control de stock</h4>
-              <p>
-                Inventario con alertas automáticas cuando el stock baja del
-                mínimo establecido.
-              </p>
+              <p>Inventario con alertas automáticas cuando el stock baja del mínimo establecido.</p>
             </div>
             <div className="landing-feature">
               <h4>Historial de logs</h4>
-              <p>
-                Registro de cada intervención con estado, observaciones y horas
-                de motor.
-              </p>
+              <p>Registro de cada intervención con estado, observaciones y horas de motor.</p>
             </div>
             <div className="landing-feature">
               <h4>Asistente IA</h4>
-              <p>
-                Chat entrenado sobre la documentación real del buque. Respuestas
-                al instante.
-              </p>
+              <p>Chat entrenado sobre la documentación real del buque. Respuestas al instante.</p>
             </div>
             <div className="landing-feature">
               <h4>Alertas de incidencias</h4>
-              <p>
-                Notificación automática al administrador cuando se registra una
-                incidencia crítica.
-              </p>
+              <p>Notificación automática al administrador cuando se registra una incidencia crítica.</p>
             </div>
           </div>
         </div>
@@ -234,10 +174,7 @@ export default function Landing() {
       <section className="landing-cta">
         <div className="landing-container landing-cta-inner">
           <h2>¿Listo para empezar?</h2>
-          <p>
-            Registra tu embarcación y gestiona el mantenimiento de forma
-            profesional.
-          </p>
+          <p>Registra tu embarcación y gestiona el mantenimiento de forma profesional.</p>
           <div className="landing-hero-actions">
             <Link to="/register" className="btn-primary-lg">
               Crear cuenta gratuita
@@ -254,6 +191,15 @@ export default function Landing() {
         <span>NavalMaint © 2025</span>
         <span>Proyecto final bootcamp full stack</span>
       </footer>
+
+      {/* SCROLL HINT */}
+      <div className="scroll-hint">
+        <svg width="24" height="36" viewBox="0 0 24 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <polyline points="2,2 12,14 22,2" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+          <polyline points="2,14 12,26 22,14" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+        </svg>
+      </div>
+
     </div>
   );
 }
